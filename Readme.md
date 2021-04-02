@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
-* Студент: [Anna Korsak](https://up.htmlacademy.ru/ecmascript/14/user/240292).
-* Наставник: `Неизвестно`.
+- Студент: [Anna Korsak](https://up.htmlacademy.ru/ecmascript/14/user/240292).
+- Наставник: [Дмитрий Рябинин](https://htmlacademy.ru/profile/id63289).
 
 ---
 
