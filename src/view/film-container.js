@@ -2,7 +2,7 @@ export const createFilmContainerTemplate = (
   allMoviesTemplate,
   topRatedTemplate,
   mostCommentedTemplate,
-  showMoreBtn
+  showMoreBtn,
 ) => {
   return `<section class="films">
     ${allMoviesTemplate}

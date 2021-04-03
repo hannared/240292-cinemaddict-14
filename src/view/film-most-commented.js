@@ -1,4 +1,4 @@
-import { createFilmCardTemplate } from "./film-card.js";
+import { createFilmCardTemplate } from './film-card.js';
 
 const FILM_COUNT = 2;
 
@@ -13,7 +13,7 @@ export const createFilmMostCommentedTemplate = () => {
   <section class="films-list films-list--extra">
     <h2 class="films-list__title">Most commented</h2>
     <div class="films-list__container">
-    ${cards.join("")}
+    ${cards.join('')}
     </div>
   </section>`;
 };
