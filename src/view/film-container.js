@@ -1,13 +1,13 @@
 export const createFilmContainerTemplate = (
   allMoviesTemplate,
   topRatedTemplate,
-  mostCommentedTemplate
+  mostCommentedTemplate,
+  showMoreBtn
 ) => {
-  return `
-  <section class="films">
+  return `<section class="films">
     ${allMoviesTemplate}
+    ${showMoreBtn}
     ${topRatedTemplate}
     ${mostCommentedTemplate}
-  </section>
-`;
+  </section>`;
 };
