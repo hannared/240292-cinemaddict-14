@@ -8,6 +8,7 @@ import { createFilmDetailsTemplate } from './view/film-details.js';
 import { createShowMoreBtnTemplate } from './view/show-more-btn.js';
 import { createSortingTemplate } from './view/sorting.js';
 import { createFooterStatisticsTemplate } from './view/footer-statistics.js';
+import { generateFilms } from './mock/film.js';
 
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
@@ -36,3 +37,6 @@ render(
 render(siteMainElement, createFilmDetailsTemplate());
 
 render(siteFooterElement, createFooterStatisticsTemplate());
+
+const films = generateFilms();
+console.log(films);
