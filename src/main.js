@@ -13,15 +13,15 @@ const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer__statistics');
 
-const render = (container, template, place) => {
+const render = (container, template, place = 'beforeend') => {
   container.insertAdjacentHTML(place, template);
 };
 
-render(siteMainElement, createSiteMenuTemplate(), 'beforeend');
+render(siteMainElement, createSiteMenuTemplate());
 
-render(siteMainElement, createSortingTemplate(), 'beforeend');
+render(siteMainElement, createSortingTemplate());
 
-render(siteHeaderElement, createUserProfileTemplate(), 'beforeend');
+render(siteHeaderElement, createUserProfileTemplate());
 
 render(
   siteMainElement,
@@ -31,9 +31,8 @@ render(
     createFilmMostCommentedTemplate(),
     createShowMoreBtnTemplate(),
   ),
-  'beforeend',
 );
 
-render(siteMainElement, createFilmDetailsTemplate(), 'beforeend');
+render(siteMainElement, createFilmDetailsTemplate());
 
-render(siteFooterElement, createFooterStatisticsTemplate(), 'beforeend');
+render(siteFooterElement, createFooterStatisticsTemplate());
