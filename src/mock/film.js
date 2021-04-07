@@ -82,13 +82,100 @@ const generateDescription = () => {
   return array.join(' ');
 };
 
-export const generateFilms = () => {
-  const films = [];
-  for (let i = 0; i < 26; i++) {
-    const film = generateFilm(i);
-    films.push(film);
+const generateAlternativeTitle = () => {
+  const alternativeTitles = [
+    'New I new Me',
+    'When the Sun Goes Down',
+    'After the Dawn',
+    'Wake me Up When September Ends',
+    'In the Begginig',
+    'Only We',
+    'During the Winter',
+  ];
+
+  const randomIndex = getRandomInteger(0, alternativeTitles.length - 1);
+
+  return alternativeTitles[randomIndex];
+};
+
+const generateDirector = () => {
+  const directors = [
+    'Tom Ford',
+    'Kristofer Nolan',
+    'Stiven Spilberg',
+    'Martin Scorseze',
+    'Stenly Kubric',
+    'Alfred Hichkok',
+  ];
+
+  const randomIndex = getRandomInteger(0, directors.length - 1);
+
+  return directors[randomIndex];
+};
+
+const generateActors = () => {
+  const actors = [
+    'Penelopa Kruz',
+    'Havier Bardem',
+    'Benisio Del Torro',
+    'Victoria Abril',
+    'Elsa Pataki',
+    'Elena Anaya',
+    'Colombo',
+    'Montserat',
+    'Maria Valverde',
+    'Eduardo Noriego',
+  ];
+  const randomActors = getRandomInteger(1, 4);
+  const array = [];
+  for (let i = 0; i < randomActors; i++) {
+    const randomIndex = getRandomInteger(0, actors.length - 1);
+    array.push(actors[randomIndex]);
   }
-  return films;
+  return array.join(' ');
+};
+
+const generateWriters = () => {
+  const writers = [
+    'Penelopa Kruz',
+    'Havier Bardem',
+    'Benisio Del Torro',
+    'Victoria Abril',
+    'Elsa Pataki',
+    'Elena Anaya',
+    'Colombo',
+    'Montserat',
+    'Maria Valverde',
+    'Eduardo Noriego',
+  ];
+  const randomWriters = getRandomInteger(1, 2);
+  const array = [];
+  for (let i = 0; i < randomWriters; i++) {
+    const randomIndex = getRandomInteger(0, writers.length - 1);
+    array.push(writers[randomIndex]);
+  }
+  return array.join(' ');
+};
+
+const generateComment = (i) => {
+  return {
+    id: i,
+    author: 1,
+    message: 1,
+    date: '2019-05-11T16:12:32.554Z',
+    emotion: generateEmotion(),
+  };
+};
+
+const generateComments = () => {
+  const comments = [];
+
+  for (let i = 0; i < 10; i++) {
+    const comment = generateComment(i);
+    comments.push(comment);
+  }
+
+  return comments;
 };
 
 const generateFilm = (i) => {
@@ -96,22 +183,42 @@ const generateFilm = (i) => {
     id: i,
     poster: `/images/posters/${generatePoster()}`,
     title: generateTitle(),
+    alternativeTitle: generateAlternativeTitle(),
     rating: getRandomFloat(1, 9),
+    age_rating: 0,
     year: getRandomInteger(1900, 2021),
     duration: 1,
     genre: generateGenre(),
     description: generateDescription(),
-    comments: [],
+    director: generateDirector(),
+    writers: generateWriters(),
+    actors: generateActors(),
+    release: {
+      date: '2019-05-11T00:00:00.000Z',
+      release_country: 'Finland',
+    },
+    runtime: 77,
+    userDetails: {
+      watchlist: false,
+      alreadyWatched: true,
+      watchingDate: '2019-04-12T16:12:32.554Z',
+      favorite: false,
+    },
+    comments: generateComments(),
   };
 };
 
-// const comment = {
-//   id: 1,
-//   author: 1,
-//   message: 1,
-//   date: '2019-05-11T16:12:32.554Z',
-//   emotion: generateEmotion(),
-// };
+export const generateFilms = () => {
+  const films = [];
+
+  for (let i = 0; i < 26; i++) {
+    const film = generateFilm(i);
+    films.push(film);
+  }
+
+  return films;
+};
+
 /*
 {
   "id": "0",
