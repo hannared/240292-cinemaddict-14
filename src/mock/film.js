@@ -1,3 +1,10 @@
+import dayjs from 'dayjs';
+import dayjsRandom from 'dayjs-random';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
+dayjs.extend(dayjsRandom);
+
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -132,7 +139,7 @@ const generateActors = () => {
     const randomIndex = getRandomInteger(0, actors.length - 1);
     array.push(actors[randomIndex]);
   }
-  return array.join(' ');
+  return array.join(', ');
 };
 
 const generateWriters = () => {
@@ -154,15 +161,48 @@ const generateWriters = () => {
     const randomIndex = getRandomInteger(0, writers.length - 1);
     array.push(writers[randomIndex]);
   }
-  return array.join(' ');
+  return array.join(', ');
+};
+
+const generateAuthor = () => {
+  const authors = [
+    'Nick Wane',
+    'Anna Cuper',
+    'John Doe',
+    'Tim Timych',
+    'Zack Den',
+    'Andy Travel',
+  ];
+
+  const randomIndex = getRandomInteger(0, authors.length - 1);
+
+  return authors[randomIndex];
+};
+
+const generateMessages = () => {
+  const messages = [
+    'Interesting setting and a good cast',
+    'Booooooooooring',
+    'Very very old. Meh',
+    'Almost two hours? Seriously?',
+    'Never again!',
+    'Super',
+  ];
+
+  const randomIndex = getRandomInteger(0, messages.length - 1);
+
+  return messages[randomIndex];
 };
 
 const generateComment = (i) => {
+  const date = dayjs
+    .between('2021-01-01', '2021-04-05')
+    .format('YYYY/MM/DD HH:mm');
   return {
     id: i,
-    author: 1,
-    message: 1,
-    date: '2019-05-11T16:12:32.554Z',
+    author: generateAuthor(),
+    message: generateMessages(),
+    date: dayjs(date).fromNow(),
     emotion: generateEmotion(),
   };
 };
@@ -179,6 +219,9 @@ const generateComments = () => {
 };
 
 const generateFilm = (i) => {
+  const releaseDate = dayjs
+    .between('2020-06-10', '2030-03-02')
+    .format('YYYY/MM/DD');
   return {
     id: i,
     poster: `/images/posters/${generatePoster()}`,
@@ -194,7 +237,7 @@ const generateFilm = (i) => {
     writers: generateWriters(),
     actors: generateActors(),
     release: {
-      date: '2019-05-11T00:00:00.000Z',
+      date: releaseDate,
       release_country: 'Finland',
     },
     runtime: 77,
