@@ -24,19 +24,19 @@ render(siteMainElement, createSortingTemplate());
 
 render(siteHeaderElement, createUserProfileTemplate());
 
+const films = generateFilms();
+console.log(films);
+
 render(
   siteMainElement,
   createFilmContainerTemplate(
-    createFilmAllMoviesTemplate(),
-    createFilmTopRatedTemplate(),
-    createFilmMostCommentedTemplate(),
+    createFilmAllMoviesTemplate(films),
+    createFilmTopRatedTemplate(films),
+    createFilmMostCommentedTemplate(films),
     createShowMoreBtnTemplate(),
   ),
 );
 
-render(siteMainElement, createFilmDetailsTemplate());
+render(siteMainElement, createFilmDetailsTemplate(films[0]));
 
 render(siteFooterElement, createFooterStatisticsTemplate());
-
-const films = generateFilms();
-console.log(films);

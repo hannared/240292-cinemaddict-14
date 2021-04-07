@@ -36,16 +36,18 @@ const generateTitle = () => {
 };
 
 const generateGenre = () => {
-  const genres = ['Musical', 'History', 'Thriller', 'Drama', 'Melodrama'];
-
-  const randomIndex = getRandomInteger(0, genres.length - 1);
-
-  return genres[randomIndex];
+  const randomGenres = getRandomInteger(1, 3);
+  const array = [];
+  const genres = ['Musical', 'History', 'Thriller', 'Drama', 'Film-Noir'];
+  for (let i = 0; i < randomGenres; i++) {
+    const randomIndex = getRandomInteger(0, genres.length - 1);
+    array.push(genres[randomIndex]);
+  }
+  return array;
 };
 
 const generateEmotion = () => {
   const emotions = ['smile', 'sleeping', 'puke', 'angry'];
-
   const randomIndex = getRandomInteger(0, emotions.length - 1);
 
   return emotions[randomIndex];
@@ -55,11 +57,11 @@ const generatePoster = () => {
   const posters = [
     'made-for-each-other.png',
     'popeye-meets-sinbad.png',
-    'sagebrush-trail.png',
-    'santa-claus-conquers-the-martians.png',
-    'the-dance-of-life.png',
-    'the-great-flamarion.png',
-    'the-man-with-the-golden-arm',
+    'sagebrush-trail.jpg',
+    'santa-claus-conquers-the-martians.jpg',
+    'the-dance-of-life.jpg',
+    'the-great-flamarion.jpg',
+    'the-man-with-the-golden-arm.jpg',
   ];
 
   const randomIndex = getRandomInteger(0, posters.length - 1);
@@ -194,6 +196,21 @@ const generateMessages = () => {
   return messages[randomIndex];
 };
 
+const generateCountry = () => {
+  const countries = [
+    'USA',
+    'Belarus',
+    'Spain',
+    'Mexico',
+    'Iceland',
+    'Switzerland',
+  ];
+
+  const randomIndex = getRandomInteger(0, countries.length - 1);
+
+  return countries[randomIndex];
+};
+
 const generateComment = (i) => {
   const date = dayjs
     .between('2021-01-01', '2021-04-05')
@@ -210,7 +227,7 @@ const generateComment = (i) => {
 const generateComments = () => {
   const comments = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < getRandomInteger(1, 8); i++) {
     const comment = generateComment(i);
     comments.push(comment);
   }
@@ -221,16 +238,36 @@ const generateComments = () => {
 const generateFilm = (i) => {
   const releaseDate = dayjs
     .between('2020-06-10', '2030-03-02')
-    .format('YYYY/MM/DD');
+    .format('DD MMMM YYYY ');
+
+  const generateAlreadyWatched = () => {
+    const alreadyWatched = Boolean(getRandomInteger(0, 1));
+
+    let watchingDate = '';
+
+    if (alreadyWatched) {
+      watchingDate = dayjs
+        .between('2020-06-10', '2021-03-02')
+        .format('YYYY/MM/DD');
+    }
+
+    return { alreadyWatched, watchingDate };
+  };
+
+  const watched = generateAlreadyWatched();
+
+  const hours = getRandomInteger(1, 2);
+  const minutes = getRandomInteger(10, 60);
+
   return {
     id: i,
     poster: `/images/posters/${generatePoster()}`,
     title: generateTitle(),
     alternativeTitle: generateAlternativeTitle(),
     rating: getRandomFloat(1, 9),
-    age_rating: 0,
+    ageRating: 0,
     year: getRandomInteger(1900, 2021),
-    duration: 1,
+    duration: `${hours}h ${minutes}m`,
     genre: generateGenre(),
     description: generateDescription(),
     director: generateDirector(),
@@ -238,14 +275,13 @@ const generateFilm = (i) => {
     actors: generateActors(),
     release: {
       date: releaseDate,
-      release_country: 'Finland',
+      country: generateCountry(),
     },
-    runtime: 77,
     userDetails: {
-      watchlist: false,
-      alreadyWatched: true,
-      watchingDate: '2019-04-12T16:12:32.554Z',
-      favorite: false,
+      watchlist: Boolean(getRandomInteger(0, 1)),
+      alreadyWatched: watched.alreadyWatched,
+      watchingDate: watched.watchingDate,
+      favorite: Boolean(getRandomInteger(0, 1)),
     },
     comments: generateComments(),
   };
@@ -261,41 +297,3 @@ export const generateFilms = () => {
 
   return films;
 };
-
-/*
-{
-  "id": "0",
-  "comments": [
-    $Comment.id$, $Comment.id$
-  ],
-  "film_info": {
-    "title": "A Little Pony Without The Carpet",
-    "alternative_title": "Laziness Who Sold Themselves",
-    "total_rating": 5.3,
-    "poster": "images/posters/blue-blazes.jpg",
-    "age_rating": 0,
-    "director": "Tom Ford",
-    "writers": [
-      "Takeshi Kitano"
-    ],
-    "actors": [
-      "Morgan Freeman"
-    ],
-    "release": {
-      "date": "2019-05-11T00:00:00.000Z",
-      "release_country": "Finland"
-    },
-    "runtime": 77,
-    "genre": [
-      "Comedy"
-    ],
-    "description": "Oscar-winning film, a war drama about two young people, from the creators of timeless classic \"Nu, Pogodi!\" and \"Alice in Wonderland\", with the best fight scenes since Bruce Lee."
-  },
-  "user_details": {
-    "watchlist": false,
-    "already_watched": true,
-    "watching_date": "2019-04-12T16:12:32.554Z",
-    "favorite": false
-  }
-}
-*/
