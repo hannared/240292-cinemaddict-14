@@ -14,18 +14,18 @@ const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer__statistics');
 
+const films = generateFilms();
+console.log(films);
+
 const render = (container, template, place = 'beforeend') => {
   container.insertAdjacentHTML(place, template);
 };
 
-render(siteMainElement, createSiteMenuTemplate());
+render(siteMainElement, createSiteMenuTemplate(films));
 
 render(siteMainElement, createSortingTemplate());
 
 render(siteHeaderElement, createUserProfileTemplate());
-
-const films = generateFilms();
-console.log(films);
 
 render(
   siteMainElement,
