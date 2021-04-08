@@ -47,7 +47,7 @@ const generateGenre = () => {
 };
 
 const generateEmotion = () => {
-  const emotions = ['smile', 'sleeping', 'puke', 'angry'];
+  const emotions = ['angry.png', 'puke.png', 'sleeping.png', 'smile.png'];
   const randomIndex = getRandomInteger(0, emotions.length - 1);
 
   return emotions[randomIndex];
@@ -265,7 +265,7 @@ const generateFilm = (i) => {
     title: generateTitle(),
     alternativeTitle: generateAlternativeTitle(),
     rating: getRandomFloat(1, 9),
-    ageRating: 0,
+    ageRating: '18+',
     year: getRandomInteger(1900, 2021),
     duration: `${hours}h ${minutes}m`,
     genre: generateGenre(),
