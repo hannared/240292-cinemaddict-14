@@ -48,7 +48,7 @@ render(
 
 render(siteMainElement, createFilmDetailsTemplate(films[0]));
 
-render(siteFooterElement, createFooterStatisticsTemplate());
+render(siteFooterElement, createFooterStatisticsTemplate(films));
 
 let renderedFilmCount = FILM_COUNT_PER_STEP;
 const showMoreButton = siteMainElement.querySelector('.films-list__show-more');
