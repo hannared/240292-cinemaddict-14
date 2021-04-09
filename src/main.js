@@ -14,12 +14,16 @@ import {
 } from './view/sorting.js';
 import { createFooterStatisticsTemplate } from './view/footer-statistics.js';
 import { generateFilms } from './mock/film.js';
+import { slice } from 'lodash';
+
+const FILM_COUNT = 26;
+const FILM_COUNT_PER_STEP = 5;
 
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer__statistics');
 
-const films = generateFilms();
+const films = generateFilms(FILM_COUNT);
 console.log(films);
 
 const render = (container, template, place = 'beforeend') => {
@@ -35,7 +39,7 @@ render(siteHeaderElement, createUserProfileTemplate());
 render(
   siteMainElement,
   createFilmContainerTemplate(
-    createFilmAllMoviesTemplate(films),
+    createFilmAllMoviesTemplate(films.slice(0, FILM_COUNT_PER_STEP)),
     createFilmTopRatedTemplate(films),
     createFilmMostCommentedTemplate(films),
     createShowMoreBtnTemplate(),
@@ -45,3 +49,22 @@ render(
 render(siteMainElement, createFilmDetailsTemplate(films[0]));
 
 render(siteFooterElement, createFooterStatisticsTemplate());
+
+let renderedFilmCount = FILM_COUNT_PER_STEP;
+const showMoreButton = siteMainElement.querySelector('.films-list__show-more');
+const allMoviesContainer = siteMainElement.querySelector(
+  '.films-list__container',
+);
+showMoreButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  render(
+    allMoviesContainer,
+    createFilmAllMoviesTemplate(
+      films.slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP),
+    ),
+  );
+  renderedFilmCount += FILM_COUNT_PER_STEP;
+  if (renderedFilmCount >= films.length) {
+    showMoreButton.remove();
+  }
+});

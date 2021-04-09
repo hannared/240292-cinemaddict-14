@@ -1,11 +1,9 @@
 import { createFilmCardTemplate } from './film-card.js';
 
-const FILM_COUNT = 5;
-
 export const createFilmAllMoviesTemplate = (films) => {
   const cards = [];
 
-  for (let i = 0; i < FILM_COUNT; i++) {
+  for (let i = 0; i < films.length; i++) {
     cards.push(createFilmCardTemplate(films[i]));
   }
 

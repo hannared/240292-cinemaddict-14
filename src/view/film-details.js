@@ -15,9 +15,10 @@ export const createFilmDetailsTemplate = (film = {}) => {
     ageRating,
     alternativeTitle,
     release,
+    commentsList,
   } = film;
 
-  const commentsTemplate = createFilmCommentsTemplate(comments);
+  const commentsTemplate = createFilmCommentsTemplate(commentsList, comments);
 
   return `
   <section class="film-details visually-hidden">

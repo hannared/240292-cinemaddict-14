@@ -1,8 +1,9 @@
-export const createFilmCommentsTemplate = (comments) => {
+export const createFilmCommentsTemplate = (comments, ids) => {
   const array = [];
 
-  for (let i = 0; i < comments.length; i++) {
-    array.push(createFilmCommentTemplate(comments[i]));
+  for (let i = 0; i < ids.length; i++) {
+    const found = comments.find((comment) => comment.id === ids[i]);
+    array.push(createFilmCommentTemplate(found));
   }
 
   return `

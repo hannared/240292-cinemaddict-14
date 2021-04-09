@@ -225,7 +225,7 @@ const generateComments = () => {
 const generateFilm = (i) => {
   const releaseDate = dayjs
     .between('2020-06-10', '2030-03-02')
-    .format('DD MMMM YYYY ');
+    .format('DD MMMM YYYY');
 
   const generateAlreadyWatched = () => {
     const alreadyWatched = Boolean(getRandomInteger(0, 1));
@@ -245,6 +245,8 @@ const generateFilm = (i) => {
 
   const hours = getRandomInteger(1, 2);
   const minutes = getRandomInteger(10, 60);
+
+  const commentsList = generateComments();
 
   return {
     id: i,
@@ -270,14 +272,17 @@ const generateFilm = (i) => {
       watchingDate: watched.watchingDate,
       favorite: Boolean(getRandomInteger(0, 1)),
     },
-    comments: generateComments(),
+    comments: commentsList.map((element) => {
+      return element.id;
+    }),
+    commentsList: commentsList,
   };
 };
 
-export const generateFilms = () => {
+export const generateFilms = (count) => {
   const films = [];
 
-  for (let i = 0; i < 26; i++) {
+  for (let i = 0; i < count; i++) {
     const film = generateFilm(i);
     films.push(film);
   }
