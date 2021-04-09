@@ -34,7 +34,7 @@ render(siteMainElement, createSiteMenuTemplate(films));
 
 render(siteMainElement, createSortingTemplate());
 
-render(siteHeaderElement, createUserProfileTemplate());
+render(siteHeaderElement, createUserProfileTemplate(films));
 
 render(
   siteMainElement,
