@@ -19,7 +19,7 @@ const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer__statistics');
 
-const films = getSortByDefaultFilms(generateFilms());
+const films = generateFilms();
 console.log(films);
 
 const render = (container, template, place = 'beforeend') => {

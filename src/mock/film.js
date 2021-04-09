@@ -1,23 +1,10 @@
 import dayjs from 'dayjs';
 import dayjsRandom from 'dayjs-random';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { getRandomInteger, getRandomFloat } from '../utils.js';
 
 dayjs.extend(relativeTime);
 dayjs.extend(dayjsRandom);
-
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-const getRandomFloat = (a = 0, b = 1) => {
-  const lower = Math.min(a, b);
-  const upper = Math.max(a, b);
-
-  return (lower + Math.random() * (upper - lower + 1)).toFixed(1);
-};
 
 const generateTitle = () => {
   const titles = [
