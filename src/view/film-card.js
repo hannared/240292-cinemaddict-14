@@ -11,9 +11,10 @@ export const createFilmCardTemplate = (film = {}) => {
   } = film;
 
   let text = description;
-  if (description.length > 140) {
-    text = text.substring(139) + '...';
+  if (text.length > 140) {
+    text = text.substring(0, 139) + '...';
   }
+
   return `
   <article class="film-card">
   <h3 class="film-card__title">${title}</h3>
