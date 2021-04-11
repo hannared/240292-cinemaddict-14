@@ -2,11 +2,11 @@ import { createFilmCardTemplate } from './film-card.js';
 
 const FILM_COUNT = 2;
 
-export const createFilmMostCommentedTemplate = () => {
+export const createFilmMostCommentedTemplate = (films) => {
   const cards = [];
 
   for (let i = 0; i < FILM_COUNT; i++) {
-    cards.push(createFilmCardTemplate());
+    cards.push(createFilmCardTemplate(films[i]));
   }
 
   return `
