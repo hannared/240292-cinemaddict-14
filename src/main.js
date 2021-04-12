@@ -9,6 +9,7 @@ import { createShowMoreBtnTemplate } from './view/show-more-btn.js';
 import { createSortingTemplate } from './view/sorting.js';
 import { createFooterStatisticsTemplate } from './view/footer-statistics.js';
 import { generateFilms } from './mock/film.js';
+import { renderTemplate } from './utils.js';
 
 const FILM_COUNT = 26;
 const FILM_COUNT_PER_STEP = 5;
@@ -19,17 +20,13 @@ const siteFooterElement = document.querySelector('.footer__statistics');
 
 const films = generateFilms(FILM_COUNT);
 
-const render = (container, template, place = 'beforeend') => {
-  container.insertAdjacentHTML(place, template);
-};
+renderTemplate(siteMainElement, createSiteMenuTemplate(films));
 
-render(siteMainElement, createSiteMenuTemplate(films));
+renderTemplate(siteMainElement, createSortingTemplate());
 
-render(siteMainElement, createSortingTemplate());
+renderTemplate(siteHeaderElement, createUserProfileTemplate(films));
 
-render(siteHeaderElement, createUserProfileTemplate(films));
-
-render(
+renderTemplate(
   siteMainElement,
   createFilmContainerTemplate(
     createFilmAllMoviesTemplate(films.slice(0, FILM_COUNT_PER_STEP)),
@@ -39,9 +36,9 @@ render(
   ),
 );
 
-render(siteMainElement, createFilmDetailsTemplate(films[0]));
+renderTemplate(siteMainElement, createFilmDetailsTemplate(films[0]));
 
-render(siteFooterElement, createFooterStatisticsTemplate(films));
+renderTemplate(siteFooterElement, createFooterStatisticsTemplate(films));
 
 let renderedFilmCount = FILM_COUNT_PER_STEP;
 const showMoreButton = siteMainElement.querySelector('.films-list__show-more');
@@ -50,7 +47,7 @@ const allMoviesContainer = siteMainElement.querySelector(
 );
 showMoreButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  render(
+  renderTemplate(
     allMoviesContainer,
     createFilmAllMoviesTemplate(
       films.slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP),
