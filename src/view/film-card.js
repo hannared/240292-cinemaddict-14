@@ -1,3 +1,5 @@
+import { sliceDescription } from '../utils';
+
 export const createFilmCardTemplate = (film = {}) => {
   const {
     title,
@@ -10,10 +12,7 @@ export const createFilmCardTemplate = (film = {}) => {
     comments,
   } = film;
 
-  let text = description;
-  if (text.length > 140) {
-    text = text.substring(0, 139) + '...';
-  }
+  const text = sliceDescription(description);
 
   return `
   <article class="film-card">

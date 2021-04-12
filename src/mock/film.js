@@ -6,17 +6,115 @@ import { getRandomInteger, getRandomFloat } from '../utils.js';
 dayjs.extend(relativeTime);
 dayjs.extend(dayjsRandom);
 
-const generateTitle = () => {
-  const titles = [
-    'Made for Each Other',
-    'Popeye meets Syndbad',
-    'Sagerbrush Trail',
-    'Santa claus conquers the martians',
-    'The dance of life',
-    'The great Flamarion',
-    'The Man with The Golden Arm',
-  ];
+const titles = [
+  'Made for Each Other',
+  'Popeye meets Syndbad',
+  'Sagerbrush Trail',
+  'Santa claus conquers the martians',
+  'The dance of life',
+  'The great Flamarion',
+  'The Man with The Golden Arm',
+];
+const genres = ['Musical', 'History', 'Thriller', 'Drama', 'Film-Noir'];
 
+const emotions = ['angry.png', 'puke.png', 'sleeping.png', 'smile.png'];
+
+const posters = [
+  'made-for-each-other.png',
+  'popeye-meets-sinbad.png',
+  'sagebrush-trail.jpg',
+  'santa-claus-conquers-the-martians.jpg',
+  'the-dance-of-life.jpg',
+  'the-great-flamarion.jpg',
+  'the-man-with-the-golden-arm.jpg',
+];
+
+const descriptions = [
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  'Cras aliquet varius magna, non porta ligula feugiat eget.',
+  'Fusce tristique felis at fermentum pharetra.',
+  'Aliquam id orci ut lectus varius viverra.',
+  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
+  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
+  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
+  'Sed sed nisi sed augue convallis suscipit in sed felis.',
+  'Aliquam erat volutpat.',
+  'Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
+];
+
+const alternativeTitles = [
+  'New I new Me',
+  'When the Sun Goes Down',
+  'After the Dawn',
+  'Wake me Up When September Ends',
+  'In the Begginig',
+  'Only We',
+  'During the Winter',
+];
+
+const directors = [
+  'Tom Ford',
+  'Kristofer Nolan',
+  'Stiven Spilberg',
+  'Martin Scorseze',
+  'Stenly Kubric',
+  'Alfred Hichkok',
+];
+
+const actors = [
+  'Penelopa Kruz',
+  'Havier Bardem',
+  'Benisio Del Torro',
+  'Victoria Abril',
+  'Elsa Pataki',
+  'Elena Anaya',
+  'Colombo',
+  'Montserat',
+  'Maria Valverde',
+  'Eduardo Noriego',
+];
+
+const writers = [
+  'Penelopa Kruz',
+  'Havier Bardem',
+  'Benisio Del Torro',
+  'Victoria Abril',
+  'Elsa Pataki',
+  'Elena Anaya',
+  'Colombo',
+  'Montserat',
+  'Maria Valverde',
+  'Eduardo Noriego',
+];
+
+const authors = [
+  'Nick Wane',
+  'Anna Cuper',
+  'John Doe',
+  'Tim Timych',
+  'Zack Den',
+  'Andy Travel',
+];
+
+const messages = [
+  'Interesting setting and a good cast',
+  'Booooooooooring',
+  'Very very old. Meh',
+  'Almost two hours? Seriously?',
+  'Never again!',
+  'Super',
+];
+
+const countries = [
+  'USA',
+  'Belarus',
+  'Spain',
+  'Mexico',
+  'Iceland',
+  'Switzerland',
+];
+
+const generateTitle = () => {
   const randomIndex = getRandomInteger(0, titles.length - 1);
 
   return titles[randomIndex];
@@ -25,7 +123,7 @@ const generateTitle = () => {
 const generateGenre = () => {
   const randomGenres = getRandomInteger(1, 3);
   const array = [];
-  const genres = ['Musical', 'History', 'Thriller', 'Drama', 'Film-Noir'];
+
   for (let i = 0; i < randomGenres; i++) {
     const randomIndex = getRandomInteger(0, genres.length - 1);
     array.push(genres[randomIndex]);
@@ -34,41 +132,18 @@ const generateGenre = () => {
 };
 
 const generateEmotion = () => {
-  const emotions = ['angry.png', 'puke.png', 'sleeping.png', 'smile.png'];
   const randomIndex = getRandomInteger(0, emotions.length - 1);
 
   return emotions[randomIndex];
 };
 
 const generatePoster = () => {
-  const posters = [
-    'made-for-each-other.png',
-    'popeye-meets-sinbad.png',
-    'sagebrush-trail.jpg',
-    'santa-claus-conquers-the-martians.jpg',
-    'the-dance-of-life.jpg',
-    'the-great-flamarion.jpg',
-    'the-man-with-the-golden-arm.jpg',
-  ];
-
   const randomIndex = getRandomInteger(0, posters.length - 1);
 
   return posters[randomIndex];
 };
 
 const generateDescription = () => {
-  const descriptions = [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    'Cras aliquet varius magna, non porta ligula feugiat eget.',
-    'Fusce tristique felis at fermentum pharetra.',
-    'Aliquam id orci ut lectus varius viverra.',
-    'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
-    'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
-    'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-    'Sed sed nisi sed augue convallis suscipit in sed felis.',
-    'Aliquam erat volutpat.',
-    'Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
-  ];
   const randomDescription = getRandomInteger(1, 3);
   const array = [];
   for (let i = 0; i < randomDescription; i++) {
@@ -79,49 +154,18 @@ const generateDescription = () => {
 };
 
 const generateAlternativeTitle = () => {
-  const alternativeTitles = [
-    'New I new Me',
-    'When the Sun Goes Down',
-    'After the Dawn',
-    'Wake me Up When September Ends',
-    'In the Begginig',
-    'Only We',
-    'During the Winter',
-  ];
-
   const randomIndex = getRandomInteger(0, alternativeTitles.length - 1);
 
   return alternativeTitles[randomIndex];
 };
 
 const generateDirector = () => {
-  const directors = [
-    'Tom Ford',
-    'Kristofer Nolan',
-    'Stiven Spilberg',
-    'Martin Scorseze',
-    'Stenly Kubric',
-    'Alfred Hichkok',
-  ];
-
   const randomIndex = getRandomInteger(0, directors.length - 1);
 
   return directors[randomIndex];
 };
 
 const generateActors = () => {
-  const actors = [
-    'Penelopa Kruz',
-    'Havier Bardem',
-    'Benisio Del Torro',
-    'Victoria Abril',
-    'Elsa Pataki',
-    'Elena Anaya',
-    'Colombo',
-    'Montserat',
-    'Maria Valverde',
-    'Eduardo Noriego',
-  ];
   const randomActors = getRandomInteger(1, 4);
   const array = [];
   for (let i = 0; i < randomActors; i++) {
@@ -132,18 +176,6 @@ const generateActors = () => {
 };
 
 const generateWriters = () => {
-  const writers = [
-    'Penelopa Kruz',
-    'Havier Bardem',
-    'Benisio Del Torro',
-    'Victoria Abril',
-    'Elsa Pataki',
-    'Elena Anaya',
-    'Colombo',
-    'Montserat',
-    'Maria Valverde',
-    'Eduardo Noriego',
-  ];
   const randomWriters = getRandomInteger(1, 2);
   const array = [];
   for (let i = 0; i < randomWriters; i++) {
@@ -154,54 +186,25 @@ const generateWriters = () => {
 };
 
 const generateAuthor = () => {
-  const authors = [
-    'Nick Wane',
-    'Anna Cuper',
-    'John Doe',
-    'Tim Timych',
-    'Zack Den',
-    'Andy Travel',
-  ];
-
   const randomIndex = getRandomInteger(0, authors.length - 1);
 
   return authors[randomIndex];
 };
 
 const generateMessages = () => {
-  const messages = [
-    'Interesting setting and a good cast',
-    'Booooooooooring',
-    'Very very old. Meh',
-    'Almost two hours? Seriously?',
-    'Never again!',
-    'Super',
-  ];
-
   const randomIndex = getRandomInteger(0, messages.length - 1);
 
   return messages[randomIndex];
 };
 
 const generateCountry = () => {
-  const countries = [
-    'USA',
-    'Belarus',
-    'Spain',
-    'Mexico',
-    'Iceland',
-    'Switzerland',
-  ];
-
   const randomIndex = getRandomInteger(0, countries.length - 1);
 
   return countries[randomIndex];
 };
 
 const generateComment = (i) => {
-  const date = dayjs
-    .between('2021-01-01', '2021-04-05')
-    .format('YYYY/MM/DD HH:mm');
+  const date = dayjs.between('2021-01-01', '2021-04-05');
   return {
     id: i,
     author: generateAuthor(),
@@ -223,9 +226,7 @@ const generateComments = () => {
 };
 
 const generateFilm = (i) => {
-  const releaseDate = dayjs
-    .between('2020-06-10', '2030-03-02')
-    .format('DD MMMM YYYY');
+  const releaseDate = dayjs.between('2020-06-10', '2030-03-02');
 
   const generateAlreadyWatched = () => {
     const alreadyWatched = Boolean(getRandomInteger(0, 1));
@@ -233,9 +234,7 @@ const generateFilm = (i) => {
     let watchingDate = '';
 
     if (alreadyWatched) {
-      watchingDate = dayjs
-        .between('2020-06-10', '2021-03-02')
-        .format('YYYY/MM/DD');
+      watchingDate = dayjs.between('2020-06-10', '2021-03-02');
     }
 
     return { alreadyWatched, watchingDate };

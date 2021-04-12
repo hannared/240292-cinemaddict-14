@@ -11,3 +11,12 @@ export const getRandomFloat = (a = 0, b = 1) => {
 
   return (lower + Math.random() * (upper - lower + 1)).toFixed(1);
 };
+
+export const sliceDescription = (description) => {
+  let text = description;
+
+  if (text.length > 140) {
+    text = text.substring(0, 139) + '...';
+  }
+  return text;
+};
