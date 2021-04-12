@@ -1,4 +1,6 @@
+import dayjs from 'dayjs';
 import { createFilmCommentsTemplate } from './film-comments';
+import { RELEASE_DATE_FORMAT } from './film-consts';
 
 export const createFilmDetailsTemplate = (film = {}) => {
   const {
@@ -17,6 +19,8 @@ export const createFilmDetailsTemplate = (film = {}) => {
     release,
     commentsList,
   } = film;
+
+  const releaseDate = dayjs(release.date).format(RELEASE_DATE_FORMAT);
 
   const commentsTemplate = createFilmCommentsTemplate(commentsList, comments);
 
@@ -65,7 +69,7 @@ export const createFilmDetailsTemplate = (film = {}) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release.date}</td>
+              <td class="film-details__cell">${releaseDate}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

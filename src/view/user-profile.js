@@ -1,8 +1,4 @@
-export const createUserProfileTemplate = (films) => {
-  const alreadyWatchedList = films.filter(
-    (film) => film.userDetails.alreadyWatched,
-  );
-
+const setUserRating = (alreadyWatchedList) => {
   let profileRating = '';
 
   if (alreadyWatchedList.length <= 10 && alreadyWatchedList.length > 0) {
@@ -12,6 +8,14 @@ export const createUserProfileTemplate = (films) => {
   } else if (alreadyWatchedList.length >= 21) {
     profileRating = 'Movie Buff';
   }
+  return profileRating;
+};
+
+export const createUserProfileTemplate = (films) => {
+  const alreadyWatchedList = films.filter(
+    (film) => film.userDetails.alreadyWatched,
+  );
+  const profileRating = setUserRating(alreadyWatchedList);
 
   return `  <section class="header__profile profile">
   <p class="profile__rating">${profileRating}</p>
