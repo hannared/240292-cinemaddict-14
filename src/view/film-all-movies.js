@@ -1,6 +1,7 @@
+import { createElement } from '../utils.js';
 import { createFilmCardTemplate } from './film-card.js';
 
-export const createFilmAllMoviesTemplate = (films) => {
+const createFilmAllMoviesTemplate = (films) => {
   const cards = [];
 
   for (let i = 0; i < films.length; i++) {
@@ -17,3 +18,26 @@ export const createFilmAllMoviesTemplate = (films) => {
   </section>
 `;
 };
+
+export default class AllMoviesContainer {
+  constructor(films) {
+    this._films = films;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmAllMoviesTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

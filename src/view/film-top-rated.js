@@ -1,8 +1,9 @@
+import { createElement } from '../utils.js';
 import { createFilmCardTemplate } from './film-card.js';
 
 const FILM_COUNT = 2;
 
-export const createFilmTopRatedTemplate = (films) => {
+const createFilmTopRatedTemplate = (films) => {
   const cards = [];
 
   for (let i = 0; i < FILM_COUNT; i++) {
@@ -17,3 +18,26 @@ export const createFilmTopRatedTemplate = (films) => {
     </div>
   </section>`;
 };
+
+export default class TopRatedContainer {
+  constructor(films) {
+    this._films = films;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmTopRatedTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

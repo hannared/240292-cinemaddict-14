@@ -1,3 +1,4 @@
+import { createElement } from '../utils.js';
 import { createFilmCardTemplate } from './film-card.js';
 
 const FILM_COUNT = 2;
@@ -17,3 +18,26 @@ export const createFilmMostCommentedTemplate = (films) => {
     </div>
   </section>`;
 };
+
+export default class MostCommentedContainer {
+  constructor(films) {
+    this._films = films;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmMostCommentedTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
