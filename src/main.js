@@ -33,9 +33,14 @@ const renderFilm = (filmListElement, film) => {
     document.addEventListener('keydown', onEscKeyDown);
 
     document.body.appendChild(filmDetailsComponent.getElement());
+
+    document.body.classList.add('hide-overflow');
   };
+
   const hideFilmModal = () => {
     document.body.removeChild(filmDetailsComponent.getElement());
+
+    document.body.classList.remove('hide-overflow');
   };
 
   const onEscKeyDown = (evt) => {
