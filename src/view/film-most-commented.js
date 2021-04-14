@@ -1,4 +1,4 @@
-import { createElement, sliceDescription } from '../utils.js';
+import { createElement } from '../utils.js';
 import FilmCard from './film-card.js';
 
 const FILM_COUNT = 2;
