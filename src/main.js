@@ -10,6 +10,7 @@ import { renderElement } from './utils.js';
 import AllMoviesContainer from './view/film-all-movies.js';
 import TopRatedContainer from './view/film-top-rated.js';
 import MostCommentedContainer from './view/film-most-commented.js';
+import FilmCard from './view/film-card.js';
 
 const FILM_COUNT = 26;
 const FILM_COUNT_PER_STEP = 5;
@@ -21,6 +22,10 @@ const siteFooterElement = document.querySelector('.footer__statistics');
 const films = generateFilms(FILM_COUNT);
 
 const filmComponent = new FilmContainer(films);
+const showMoreButton = new ShowMoreBtn();
+let allMoviesContainer = new AllMoviesContainer(
+  films.slice(0, FILM_COUNT_PER_STEP),
+);
 
 renderElement(siteMainElement, new SiteMenu(films).getElement());
 
@@ -31,11 +36,9 @@ renderElement(siteHeaderElement, new UserProfile(films).getElement());
 renderElement(siteMainElement, filmComponent.getElement());
 
 // - render all movies
-renderElement(
-  filmComponent.getElement(),
-  new AllMoviesContainer(films.slice(0, FILM_COUNT_PER_STEP)).getElement(),
-);
-renderElement(filmComponent.getElement(), new ShowMoreBtn().getElement());
+renderElement(filmComponent.getElement(), allMoviesContainer.getElement());
+
+renderElement(filmComponent.getElement(), showMoreButton.getElement());
 renderElement(
   filmComponent.getElement(),
   new TopRatedContainer(films).getElement(),
@@ -50,21 +53,31 @@ renderElement(siteMainElement, new FilmDetails(films[0]).getElement());
 renderElement(siteFooterElement, new FooterStatistics(films).getElement());
 
 let renderedFilmCount = FILM_COUNT_PER_STEP;
-const showMoreButton = siteMainElement.querySelector('.films-list__show-more');
-const allMoviesContainer = siteMainElement.querySelector(
-  '.films-list__container',
-);
-//showMoreButton.addEventListener('click', (evt) => {
-//evt.preventDefault();
 
-// renderTemplate(
-//   allMoviesContainer,
-//   createFilmAllMoviesTemplate(
-//     films.slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP),
-//   ),
-// );
-// renderedFilmCount += FILM_COUNT_PER_STEP;
-// if (renderedFilmCount >= films.length) {
-//   showMoreButton.remove();
-// }
-//});
+showMoreButton.getElement().addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  renderElement(
+    allMoviesContainer.getElement(),
+
+    new AllMoviesContainer(
+      films.slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP),
+    ).getElement(),
+  );
+
+  const sliced = films.slice(
+    renderedFilmCount,
+    renderedFilmCount + FILM_COUNT_PER_STEP,
+  );
+  for (let i = 0; i < sliced; i++) {
+    renderElement(
+      allMoviesContainer.getElement(),
+      new FilmCard(sliced[i]).getElement(),
+    );
+  }
+
+  renderedFilmCount += FILM_COUNT_PER_STEP;
+  if (renderedFilmCount >= films.length) {
+    showMoreButton.removeElement();
+  }
+});

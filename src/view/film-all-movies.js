@@ -1,11 +1,11 @@
 import { createElement } from '../utils.js';
-import { createFilmCardTemplate } from './film-card.js';
+import FilmCard from './film-card.js';
 
 const createFilmAllMoviesTemplate = (films) => {
   const cards = [];
 
   for (let i = 0; i < films.length; i++) {
-    cards.push(createFilmCardTemplate(films[i]));
+    cards.push(new FilmCard(films[i]).getTemplate());
   }
 
   return `

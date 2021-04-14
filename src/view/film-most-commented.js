@@ -1,5 +1,5 @@
 import { createElement } from '../utils.js';
-import { createFilmCardTemplate } from './film-card.js';
+import FilmCard from './film-card.js';
 
 const FILM_COUNT = 2;
 
@@ -7,7 +7,7 @@ export const createFilmMostCommentedTemplate = (films) => {
   const cards = [];
 
   for (let i = 0; i < FILM_COUNT; i++) {
-    cards.push(createFilmCardTemplate(films[i]));
+    cards.push(new FilmCard(films[i]).getTemplate());
   }
 
   return `

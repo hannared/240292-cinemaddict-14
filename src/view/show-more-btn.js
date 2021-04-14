@@ -24,6 +24,8 @@ export default class ShowMoreBtn {
   }
 
   removeElement() {
+    this._element.remove();
+
     this._element = null;
   }
 }
