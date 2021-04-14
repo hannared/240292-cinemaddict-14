@@ -21,7 +21,7 @@ const siteFooterElement = document.querySelector('.footer__statistics');
 
 const films = generateFilms(FILM_COUNT);
 
-const filmComponent = new FilmContainer(films);
+const filmComponent = new FilmContainer();
 const showMoreButton = new ShowMoreBtn();
 const allMoviesContainer = new AllMoviesContainer();
 
