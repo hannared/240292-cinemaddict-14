@@ -1,4 +1,4 @@
-import { createElement } from '../utils.js';
+import { createElement, sliceDescription } from '../utils.js';
 import FilmCard from './film-card.js';
 
 const FILM_COUNT = 2;
@@ -6,7 +6,8 @@ const FILM_COUNT = 2;
 export const createFilmMostCommentedTemplate = (films) => {
   const cards = [];
 
-  for (let i = 0; i < FILM_COUNT; i++) {
+  const sliced = films.slice(0, FILM_COUNT);
+  for (let i = 0; i < sliced.length; i++) {
     cards.push(new FilmCard(films[i]).getTemplate());
   }
 

@@ -11,6 +11,7 @@ import AllMoviesContainer from './view/film-all-movies.js';
 import TopRatedContainer from './view/film-top-rated.js';
 import MostCommentedContainer from './view/film-most-commented.js';
 import FilmCard from './view/film-card.js';
+import NoFilm from './view/no-film.js';
 
 const FILM_COUNT = 26;
 const FILM_COUNT_PER_STEP = 5;
@@ -24,6 +25,7 @@ const films = generateFilms(FILM_COUNT);
 const filmComponent = new FilmContainer();
 const showMoreButton = new ShowMoreBtn();
 const allMoviesContainer = new AllMoviesContainer();
+const sortingComponent = new Sorting();
 
 const renderFilm = (filmListElement, film) => {
   const filmComponent = new FilmCard(film);
@@ -85,25 +87,35 @@ const renderFilm = (filmListElement, film) => {
 
 renderElement(siteMainElement, new SiteMenu(films).getElement());
 
-renderElement(siteMainElement, new Sorting().getElement());
+renderElement(siteMainElement, sortingComponent.getElement());
 
 renderElement(siteHeaderElement, new UserProfile(films).getElement());
 
 renderElement(siteMainElement, filmComponent.getElement());
 
 // - render all movies
-renderElement(filmComponent.getElement(), allMoviesContainer.getElement());
+if (films.length === 0) {
+  renderElement(filmComponent.getElement(), new NoFilm().getElement());
 
-renderElement(filmComponent.getElement(), showMoreButton.getElement());
-renderElement(
-  filmComponent.getElement(),
-  new TopRatedContainer(films).getElement(),
-);
-renderElement(
-  filmComponent.getElement(),
-  new MostCommentedContainer(films).getElement(),
-);
+  sortingComponent.removeElement();
+} else {
+  renderElement(filmComponent.getElement(), allMoviesContainer.getElement());
+}
 
+if (films.length !== 0 && films.length > FILM_COUNT_PER_STEP) {
+  renderElement(filmComponent.getElement(), showMoreButton.getElement());
+}
+if (films.length !== 0) {
+  renderElement(
+    filmComponent.getElement(),
+    new TopRatedContainer(films).getElement(),
+  );
+
+  renderElement(
+    filmComponent.getElement(),
+    new MostCommentedContainer(films).getElement(),
+  );
+}
 // renderElement(siteMainElement, new FilmDetails(films[0]).getElement());
 
 renderElement(siteFooterElement, new FooterStatistics(films).getElement());
