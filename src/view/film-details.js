@@ -30,7 +30,7 @@ const createFilmDetailsTemplate = (film = {}) => {
     .join('');
 
   return `
-  <section class="film-details visually-hidden">
+  <section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
       <div class="film-details__close">
@@ -146,8 +146,8 @@ const createFilmDetailsTemplate = (film = {}) => {
 };
 
 export default class FilmDetails {
-  constructor(films) {
-    this._films = films;
+  constructor(film) {
+    this._films = film;
     this._element = null;
   }
 
