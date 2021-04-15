@@ -1,4 +1,4 @@
-import { createElement } from '../utils.js';
+import Abstract from './abstract.js';
 import { getHistoryFilms } from './film-filters.js';
 import { getWatchlistFilms } from './film-filters.js';
 import { getFavoriteFilms } from './film-filters.js';
@@ -19,25 +19,13 @@ const createSiteMenuTemplate = (films) => {
 </nav>`;
 };
 
-export default class SiteMenu {
-  constructor(films) {
-    this._films = films;
-    this._element = null;
+export default class SiteMenu extends Abstract {
+  constructor(film) {
+    super();
+    this._film = film;
   }
 
   getTemplate() {
-    return createSiteMenuTemplate(this._films);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createSiteMenuTemplate(this._film);
   }
 }
