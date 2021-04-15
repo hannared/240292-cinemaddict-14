@@ -53,34 +53,9 @@ const renderFilm = (filmListElement, film) => {
     }
   };
 
-  filmComponent
-    .getElement()
-    .querySelector('.film-card__poster')
-    .addEventListener('click', () => {
-      showFilmModal();
-    });
+  filmComponent.setFilmCardClickHandler(showFilmModal);
 
-  filmComponent
-    .getElement()
-    .querySelector('.film-card__title')
-    .addEventListener('click', () => {
-      showFilmModal();
-    });
-  filmComponent
-    .getElement()
-    .querySelector('.film-card__comments')
-    .addEventListener('click', () => {
-      showFilmModal();
-    });
-
-  filmDetailsComponent
-    .getElement()
-    .querySelector('.film-details__close-btn')
-    .addEventListener('click', (evt) => {
-      evt.preventDefault();
-
-      hideFilmModal();
-    });
+  filmDetailsComponent.setCloseBtnClickHandler(hideFilmModal);
 
   renderElement(filmListElement, filmComponent.getElement());
 };
@@ -131,9 +106,7 @@ for (let i = 0; i < sliced.length; i++) {
 
 let renderedFilmCount = FILM_COUNT_PER_STEP;
 
-showMoreButton.getElement().addEventListener('click', (evt) => {
-  evt.preventDefault();
-
+showMoreButton.setShowMoreBtnClickHandler(() => {
   const sliced = films.slice(
     renderedFilmCount,
     renderedFilmCount + FILM_COUNT_PER_STEP,

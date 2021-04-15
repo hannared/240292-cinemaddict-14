@@ -149,9 +149,21 @@ export default class FilmDetails extends Abstract {
   constructor(film) {
     super();
     this._film = film;
+    this._clickCloseBtnHandler = this._clickCloseBtnHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
+  }
+  _clickCloseBtnHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
+  setCloseBtnClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement()
+      .querySelector('.film-details__close-btn')
+      .addEventListener('click', this._clickCloseBtnHandler);
   }
 }

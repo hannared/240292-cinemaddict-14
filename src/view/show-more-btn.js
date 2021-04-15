@@ -7,6 +7,10 @@ const createShowMoreBtnTemplate = () => {
 };
 
 export default class ShowMoreBtn extends Abstract {
+  constructor() {
+    super();
+    this._clickShowMoreBtnHandler = this._clickShowMoreBtnHandler.bind(this);
+  }
   getTemplate() {
     return createShowMoreBtnTemplate();
   }
@@ -15,5 +19,14 @@ export default class ShowMoreBtn extends Abstract {
     this._element.remove();
 
     super.removeElement();
+  }
+  _clickShowMoreBtnHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
+  setShowMoreBtnClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().addEventListener('click', this._clickShowMoreBtnHandler);
   }
 }
