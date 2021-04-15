@@ -1,6 +1,9 @@
+import dayjs from 'dayjs';
+import { createElement } from '../utils';
 import { createFilmCommentsTemplate } from './film-comments';
+import { RELEASE_DATE_FORMAT } from './film-consts';
 
-export const createFilmDetailsTemplate = (film = {}) => {
+const createFilmDetailsTemplate = (film = {}) => {
   const {
     title,
     rating,
@@ -18,6 +21,8 @@ export const createFilmDetailsTemplate = (film = {}) => {
     commentsList,
   } = film;
 
+  const releaseDate = dayjs(release.date).format(RELEASE_DATE_FORMAT);
+
   const commentsTemplate = createFilmCommentsTemplate(commentsList, comments);
 
   const genresTemplate = genre
@@ -25,7 +30,7 @@ export const createFilmDetailsTemplate = (film = {}) => {
     .join('');
 
   return `
-  <section class="film-details visually-hidden">
+  <section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
       <div class="film-details__close">
@@ -65,7 +70,7 @@ export const createFilmDetailsTemplate = (film = {}) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release.date}</td>
+              <td class="film-details__cell">${releaseDate}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -139,3 +144,26 @@ export const createFilmDetailsTemplate = (film = {}) => {
 </section>
 `;
 };
+
+export default class FilmDetails {
+  constructor(film) {
+    this._films = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

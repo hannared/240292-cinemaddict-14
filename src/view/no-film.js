@@ -1,19 +1,20 @@
 import { createElement } from '../utils';
 
-const createFooterStatisticsTemplate = (films) => {
-  return `
-  <p>${films.length} movies inside</p>
-  `;
+const createNoTaskTemplate = () => {
+  return `<section class="films">
+  <section class="films-list">
+    <h2 class="films-list__title">There are no movies in our database</h2>
+  </section>
+</section>`;
 };
 
-export default class FooterStatistics {
-  constructor(films) {
-    this._films = films;
+export default class NoFilm {
+  constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createFooterStatisticsTemplate(this._films);
+    return createNoTaskTemplate();
   }
 
   getElement() {
