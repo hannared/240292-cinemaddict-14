@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import Abstract from './abstract';
 
 const createFooterStatisticsTemplate = (films) => {
   return `
@@ -6,25 +6,13 @@ const createFooterStatisticsTemplate = (films) => {
   `;
 };
 
-export default class FooterStatistics {
-  constructor(films) {
-    this._films = films;
-    this._element = null;
+export default class FooterStatistics extends Abstract {
+  constructor(film) {
+    super();
+    this._film = film;
   }
 
   getTemplate() {
-    return createFooterStatisticsTemplate(this._films);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createFooterStatisticsTemplate(this._film);
   }
 }

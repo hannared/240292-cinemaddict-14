@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import Abstract from './abstract';
 
 const getUserRating = (alreadyWatchedList) => {
   let profileRating = '';
@@ -26,25 +26,13 @@ const createUserProfileTemplate = (films) => {
   `;
 };
 
-export default class UserProfile {
-  constructor(films) {
-    this._films = films;
-    this._element = null;
+export default class UserProfile extends Abstract {
+  constructor(film) {
+    super();
+    this._film = film;
   }
 
   getTemplate() {
-    return createUserProfileTemplate(this._films);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createUserProfileTemplate(this._film);
   }
 }

@@ -1,4 +1,5 @@
-import { createElement, sliceDescription } from '../utils';
+import { sliceDescription } from '../utils';
+import Abstract from './abstract';
 
 const createFilmCardTemplate = (film = {}) => {
   const {
@@ -34,25 +35,33 @@ const createFilmCardTemplate = (film = {}) => {
 </article>`;
 };
 
-export default class FilmCard {
+export default class FilmCard extends Abstract {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+    this._clickFilmCardHandler = this._clickFilmCardHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _clickFilmCardHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 
-  removeElement() {
-    this._element = null;
+  setFilmCardClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement()
+      .querySelector('.film-card__poster')
+      .addEventListener('click', this._clickFilmCardHandler);
+
+    this.getElement()
+      .querySelector('.film-card__title')
+      .addEventListener('click', this._clickFilmCardHandler);
+
+    this.getElement()
+      .querySelector('.film-card__comments')
+      .addEventListener('click', this._clickFilmCardHandler);
   }
 }

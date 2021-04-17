@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { createElement } from '../utils';
+import Abstract from './abstract';
 import { createFilmCommentsTemplate } from './film-comments';
 import { RELEASE_DATE_FORMAT } from './film-consts';
 
@@ -145,25 +145,25 @@ const createFilmDetailsTemplate = (film = {}) => {
 `;
 };
 
-export default class FilmDetails {
+export default class FilmDetails extends Abstract {
   constructor(film) {
-    this._films = film;
-    this._element = null;
+    super();
+    this._film = film;
+    this._clickCloseBtnHandler = this._clickCloseBtnHandler.bind(this);
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._films);
+    return createFilmDetailsTemplate(this._film);
+  }
+  _clickCloseBtnHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setCloseBtnClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement()
+      .querySelector('.film-details__close-btn')
+      .addEventListener('click', this._clickCloseBtnHandler);
   }
 }

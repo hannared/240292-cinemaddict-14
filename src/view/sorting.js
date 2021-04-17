@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { createElement } from '../utils';
+import Abstract from './abstract';
 
 export const getSortByDateFilms = (films) => {
   return _.sortBy(films, ['year']);
@@ -19,25 +19,13 @@ const createSortingTemplate = () => {
 </ul>`;
 };
 
-export default class Sorting {
-  constructor() {
-    this._element = null;
-  }
-
+export default class Sorting extends Abstract {
   getTemplate() {
     return createSortingTemplate();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
   removeElement() {
     this._element.remove();
-    this._element = null;
+
+    super.removeElement();
   }
 }

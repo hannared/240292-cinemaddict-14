@@ -1,4 +1,4 @@
-import { createElement } from '../utils.js';
+import Abstract from './abstract.js';
 import FilmCard from './film-card.js';
 
 const FILM_COUNT = 2;
@@ -19,26 +19,13 @@ const createFilmTopRatedTemplate = (films) => {
     </div>
   </section>`;
 };
-
-export default class TopRatedContainer {
-  constructor(films) {
-    this._films = films;
-    this._element = null;
+export default class TopRatedContainer extends Abstract {
+  constructor(film) {
+    super();
+    this._film = film;
   }
 
   getTemplate() {
-    return createFilmTopRatedTemplate(this._films);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createFilmTopRatedTemplate(this._film);
   }
 }

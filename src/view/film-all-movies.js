@@ -1,4 +1,4 @@
-import { createElement } from '../utils.js';
+import Abstract from './abstract.js';
 
 const createFilmAllMoviesTemplate = () => {
   return `
@@ -11,24 +11,8 @@ const createFilmAllMoviesTemplate = () => {
 `;
 };
 
-export default class AllMoviesContainer {
-  constructor() {
-    this._element = null;
-  }
-
+export default class AllMoviesContainer extends Abstract {
   getTemplate() {
     return createFilmAllMoviesTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
