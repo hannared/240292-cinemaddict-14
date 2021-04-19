@@ -53,9 +53,9 @@ const renderFilm = (filmListElement, film) => {
     }
   };
 
-  filmCardComponent.setFilmCardClickHandler(showFilmModal);
+  filmCardComponent.setClickHandler(showFilmModal);
 
-  filmDetailsComponent.setCloseBtnClickHandler(hideFilmModal);
+  filmDetailsComponent.setClickHandler(hideFilmModal);
 
   renderElement(filmListElement, filmCardComponent.getElement());
 };
@@ -106,7 +106,7 @@ for (let i = 0; i < sliced.length; i++) {
 
 let renderedFilmCount = FILM_COUNT_PER_STEP;
 
-showMoreButton.setShowMoreBtnClickHandler(() => {
+showMoreButton.setClickHandler(() => {
   const sliced = films.slice(
     renderedFilmCount,
     renderedFilmCount + FILM_COUNT_PER_STEP,

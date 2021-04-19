@@ -50,7 +50,7 @@ export default class FilmCard extends Abstract {
     this._callback.click();
   }
 
-  setFilmCardClickHandler(callback) {
+  setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement()
       .querySelector('.film-card__poster')

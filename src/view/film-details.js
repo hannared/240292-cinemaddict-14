@@ -160,7 +160,7 @@ export default class FilmDetails extends Abstract {
     this._callback.click();
   }
 
-  setCloseBtnClickHandler(callback) {
+  setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement()
       .querySelector('.film-details__close-btn')

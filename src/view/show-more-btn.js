@@ -25,7 +25,7 @@ export default class ShowMoreBtn extends Abstract {
     this._callback.click();
   }
 
-  setShowMoreBtnClickHandler(callback) {
+  setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement().addEventListener('click', this._clickShowMoreBtnHandler);
   }
