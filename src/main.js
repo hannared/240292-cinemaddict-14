@@ -28,7 +28,7 @@ const allMoviesContainer = new AllMoviesContainer();
 const sortingComponent = new Sorting();
 
 const renderFilm = (filmListElement, film) => {
-  const filmComponent = new FilmCard(film);
+  const filmCardComponent = new FilmCard(film);
   const filmDetailsComponent = new FilmDetails(film);
 
   const showFilmModal = () => {
@@ -53,11 +53,11 @@ const renderFilm = (filmListElement, film) => {
     }
   };
 
-  filmComponent.setFilmCardClickHandler(showFilmModal);
+  filmCardComponent.setFilmCardClickHandler(showFilmModal);
 
   filmDetailsComponent.setCloseBtnClickHandler(hideFilmModal);
 
-  renderElement(filmListElement, filmComponent.getElement());
+  renderElement(filmListElement, filmCardComponent.getElement());
 };
 
 renderElement(siteMainElement, new SiteMenu(films).getElement());
