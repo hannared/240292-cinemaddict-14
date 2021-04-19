@@ -27,12 +27,12 @@ const createUserProfileTemplate = (films) => {
 };
 
 export default class UserProfile extends Abstract {
-  constructor(film) {
+  constructor(films) {
     super();
-    this._film = film;
+    this._films = films;
   }
 
   getTemplate() {
-    return createUserProfileTemplate(this._film);
+    return createUserProfileTemplate(this._films);
   }
 }
