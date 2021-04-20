@@ -1,4 +1,4 @@
-import { renderElement } from '../utils';
+import { renderElement, updateItem } from '../utils';
 import AllMoviesContainer from '../view/film-all-movies';
 import FilmCard from '../view/film-card';
 import FilmContainer from '../view/film-container';
@@ -23,10 +23,17 @@ export default class Home {
     this._noFilmComponent = new NoFilm();
 
     this._showMoreButtonComponent = new ShowMoreBtn();
+
+    this._handleFilmChange = this._handleFilmChange.bind(this);
   }
 
   init(homeFilms) {
     this._homeFilms = homeFilms.slice();
+  }
+
+  _handleFilmChange(updatedFilm) {
+    this._boardTasks = updateItem(this._boardTasks, updatedFilm);
+    this._taskPresenter[updatedFilm.id].init(updatedFilm);
   }
 
   _renderSiteMenu() {
@@ -66,7 +73,21 @@ export default class Home {
       }
     };
 
+    const onFavouriteCLick = () => {
+      console.log('FAV TEST');
+    };
+    const onWatchListCLick = () => {
+      console.log('TO WATCH TEST');
+    };
+
+    const onAlreadyWatchedCLick = () => {
+      console.log('WATCHED TEST');
+    };
+
     filmCardComponent.setClickHandler(showFilmModal);
+    filmCardComponent.setFavoriteClickHandler(onFavouriteCLick);
+    filmCardComponent.setWatchListClickHandler(onWatchListCLick);
+    filmCardComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
 
     filmDetailsComponent.setClickHandler(hideFilmModal);
 

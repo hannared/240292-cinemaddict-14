@@ -40,6 +40,11 @@ export default class FilmCard extends Abstract {
     super();
     this._film = film;
     this._clickFilmCardHandler = this._clickFilmCardHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+    this._watchListClickHandler = this._watchListClickHandler.bind(this);
+    this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
+      this,
+    );
   }
 
   getTemplate() {
@@ -48,6 +53,21 @@ export default class FilmCard extends Abstract {
   _clickFilmCardHandler(evt) {
     evt.preventDefault();
     this._callback.click();
+  }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  _watchListClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchListClick();
+  }
+
+  _alreadyWatchedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.alreadyWatchedClick();
   }
 
   setClickHandler(callback) {
@@ -63,5 +83,32 @@ export default class FilmCard extends Abstract {
     this.getElement()
       .querySelector('.film-card__comments')
       .addEventListener('click', this._clickFilmCardHandler);
+  }
+
+  // const card = new FilmCard();
+  /* card.setFavoriteClickHandler(() => {
+    console.log("FAV TEST");
+  });
+  */
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement()
+      .querySelector('.film-card__controls-item--favorite')
+      .addEventListener('click', this._favoriteClickHandler);
+  }
+
+  setWatchListClickHandler(callback) {
+    this._callback.watchListClick = callback;
+    this.getElement()
+      .querySelector('.film-card__controls-item--add-to-watchlist')
+      .addEventListener('click', this._watchListClickHandler);
+  }
+
+  setAlreadyWatchedClickHandler(callback) {
+    this._callback.alreadyWatchedClick = callback;
+    this.getElement()
+      .querySelector('.film-card__controls-item--mark-as-watched')
+      .addEventListener('click', this._alreadyWatchedClickHandler);
   }
 }

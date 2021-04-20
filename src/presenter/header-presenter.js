@@ -1,4 +1,3 @@
-import { times } from 'lodash';
 import { renderElement } from '../utils';
 import UserProfile from '../view/user-profile';
 

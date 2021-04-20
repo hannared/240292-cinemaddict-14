@@ -36,19 +36,12 @@ export const renderTemplate = (
   container.insertAdjacentHTML(place, template);
 };
 
-// Принцип работы прост:
-// 1. создаём пустой div-блок
-// 2. берём HTML в виде строки и вкладываем в этот div-блок, превращая в DOM-элемент
-// 3. возвращаем этот DOM-элемент
 export const createElement = (template) => {
   const newElement = document.createElement('div'); // 1
   newElement.innerHTML = template.trim(); // 2
 
   return newElement.firstChild; // 3
 };
-// Единственный нюанс, что HTML в строке должен иметь общую обёртку,
-// то есть быть чем-то вроде <nav><a>Link 1</a><a>Link 2</a></nav>,
-// а не просто <a>Link 1</a><a>Link 2</a>
 
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -71,4 +64,14 @@ export const sliceDescription = (description) => {
     text = text.substring(0, 139) + '...';
   }
   return text;
+};
+
+export const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [...items.slice(0, index), update, ...items.slice(index + 1)];
 };
