@@ -14,9 +14,7 @@ const getUserRating = (alreadyWatchedList) => {
 };
 
 const createUserProfileTemplate = (films) => {
-  const alreadyWatchedList = films.filter(
-    (film) => film.userDetails.alreadyWatched,
-  );
+  const alreadyWatchedList = films.filter((film) => film.isAlreadyWatched);
   const profileRating = getUserRating(alreadyWatchedList);
 
   return `<section class="header__profile profile">

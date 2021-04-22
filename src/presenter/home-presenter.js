@@ -16,12 +16,10 @@ const FILM_COUNT_PER_STEP = 5;
 export default class Home {
   constructor(homeContainer) {
     this._homeContainer = homeContainer;
-
     this._sortingComponent = new Sorting();
     this._filmContainerComponent = new FilmContainer();
     this._allMoviesComponent = new AllMoviesContainer();
     this._noFilmComponent = new NoFilm();
-
     this._showMoreButtonComponent = new ShowMoreBtn();
 
     this._handleFilmChange = this._handleFilmChange.bind(this);
@@ -32,8 +30,12 @@ export default class Home {
   }
 
   _handleFilmChange(updatedFilm) {
-    this._boardTasks = updateItem(this._boardTasks, updatedFilm);
-    this._taskPresenter[updatedFilm.id].init(updatedFilm);
+    console.log('UPDATED FILM: ', updatedFilm);
+
+    this._homeFilms = updateItem(this._homeFilms, updatedFilm);
+    console.log('UPDATED FILMS: ', this._homeFilms);
+
+    // this._taskPresenter[updatedFilm.id].init(updatedFilm);
   }
 
   _renderSiteMenu() {
@@ -47,7 +49,7 @@ export default class Home {
     }
   }
 
-  _renderFilm(filmListElement, film) {
+  _renderFilm(filmListElement, film, changeData) {
     const filmCardComponent = new FilmCard(film);
     const filmDetailsComponent = new FilmDetails(film);
 
@@ -75,13 +77,32 @@ export default class Home {
 
     const onFavouriteCLick = () => {
       console.log('FAV TEST');
+
+      changeData(
+        Object.assign({}, film, {
+          isFavorite: !film.isFavorite,
+        }),
+      );
     };
+
     const onWatchListCLick = () => {
       console.log('TO WATCH TEST');
+
+      changeData(
+        Object.assign({}, film, {
+          isWatchList: !film.isWatchList,
+        }),
+      );
     };
 
     const onAlreadyWatchedCLick = () => {
       console.log('WATCHED TEST');
+
+      changeData(
+        Object.assign({}, film, {
+          isAlreadyWatched: !film.isAlreadyWatched,
+        }),
+      );
     };
 
     filmCardComponent.setClickHandler(showFilmModal);
@@ -90,6 +111,9 @@ export default class Home {
     filmCardComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
 
     filmDetailsComponent.setClickHandler(hideFilmModal);
+    filmDetailsComponent.setFavoriteClickHandler(onFavouriteCLick);
+    filmDetailsComponent.setWatchListClickHandler(onWatchListCLick);
+    filmDetailsComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
 
     renderElement(filmListElement, filmCardComponent.getElement());
   }
@@ -109,7 +133,7 @@ export default class Home {
         const filmsListElement = this._allMoviesComponent
           .getElement()
           .querySelector('.films-list__container');
-        this._renderFilm(filmsListElement, film);
+        this._renderFilm(filmsListElement, film, this._handleFilmChange);
       }
 
       if (this._homeFilms.length > FILM_COUNT_PER_STEP) {
@@ -143,7 +167,7 @@ export default class Home {
         const filmsListElement = this._allMoviesComponent
           .getElement()
           .querySelector('.films-list__container');
-        this._renderFilm(filmsListElement, film);
+        this._renderFilm(filmsListElement, film, this._handleFilmChange);
       }
 
       renderedFilmCount += FILM_COUNT_PER_STEP;

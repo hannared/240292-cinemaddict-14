@@ -85,12 +85,6 @@ export default class FilmCard extends Abstract {
       .addEventListener('click', this._clickFilmCardHandler);
   }
 
-  // const card = new FilmCard();
-  /* card.setFavoriteClickHandler(() => {
-    console.log("FAV TEST");
-  });
-  */
-
   setFavoriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
     this.getElement()

@@ -265,12 +265,11 @@ const generateFilm = (i) => {
       date: releaseDate,
       country: generateCountry(),
     },
-    userDetails: {
-      watchlist: Boolean(getRandomInteger(0, 1)),
-      alreadyWatched: watched.alreadyWatched,
-      watchingDate: watched.watchingDate,
-      favorite: Boolean(getRandomInteger(0, 1)),
-    },
+
+    isFavorite: Boolean(getRandomInteger(0, 1)),
+    isWatchlist: Boolean(getRandomInteger(0, 1)),
+    isAlreadyWatched: watched.alreadyWatched,
+    watchingDate: watched.watchingDate,
     comments: commentsList.map((element) => {
       return element.id;
     }),
