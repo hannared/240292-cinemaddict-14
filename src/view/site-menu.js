@@ -20,12 +20,13 @@ const createSiteMenuTemplate = (films) => {
 };
 
 export default class SiteMenu extends Abstract {
-  constructor(film) {
+  constructor(films) {
     super();
-    this._film = film;
+
+    this._films = films;
   }
 
   getTemplate() {
-    return createSiteMenuTemplate(this._film);
+    return createSiteMenuTemplate(this._films);
   }
 }

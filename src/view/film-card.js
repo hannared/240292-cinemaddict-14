@@ -11,9 +11,14 @@ const createFilmCardTemplate = (film = {}) => {
     poster,
     description,
     comments,
+    isFavorite,
   } = film;
 
   const text = sliceDescription(description);
+
+  const isFavoriteClassName = isFavorite
+    ? 'film-card__controls-item--active'
+    : '';
 
   return `
   <article class="film-card">
@@ -30,7 +35,7 @@ const createFilmCardTemplate = (film = {}) => {
   <div class="film-card__controls">
     <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
     <button class="film-card__controls-item button film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
-    <button class="film-card__controls-item button film-card__controls-item--favorite" type="button">Mark as favorite</button>
+    <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavoriteClassName}" type="button">Mark as favorite</button>
   </div>
 </article>`;
 };
@@ -50,6 +55,7 @@ export default class FilmCard extends Abstract {
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
+
   _clickFilmCardHandler(evt) {
     evt.preventDefault();
     this._callback.click();

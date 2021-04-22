@@ -1,14 +1,13 @@
-import { renderElement, updateItem } from '../utils';
+import { renderElement, updateItem, replace } from '../utils';
 import AllMoviesContainer from '../view/film-all-movies';
-import FilmCard from '../view/film-card';
 import FilmContainer from '../view/film-container';
-import FilmDetails from '../view/film-details';
 import MostCommentedContainer from '../view/film-most-commented';
 import TopRatedContainer from '../view/film-top-rated';
 import NoFilm from '../view/no-film';
 import ShowMoreBtn from '../view/show-more-btn';
 import SiteMenu from '../view/site-menu';
 import Sorting from '../view/sorting';
+import FilmPresenter from './film-presenter';
 
 const FILM_COUNT = 26;
 const FILM_COUNT_PER_STEP = 5;
@@ -23,6 +22,8 @@ export default class Home {
     this._showMoreButtonComponent = new ShowMoreBtn();
 
     this._handleFilmChange = this._handleFilmChange.bind(this);
+
+    this._filmPresenters = {};
   }
 
   init(homeFilms) {
@@ -35,7 +36,11 @@ export default class Home {
     this._homeFilms = updateItem(this._homeFilms, updatedFilm);
     console.log('UPDATED FILMS: ', this._homeFilms);
 
-    // this._taskPresenter[updatedFilm.id].init(updatedFilm);
+    const oldSiteMenu = this._siteMenuComponent;
+    this._siteMenuComponent = new SiteMenu(this._homeFilms);
+    replace(this._siteMenuComponent, oldSiteMenu);
+
+    // this._filmPresenters[updatedFilm.id].init(updatedFilm);
   }
 
   _renderSiteMenu() {
@@ -43,82 +48,18 @@ export default class Home {
 
     renderElement(this._homeContainer, this._siteMenuComponent);
   }
+
   _renderSort() {
     if (this._homeFilms.length !== 0) {
       renderElement(this._homeContainer, this._sortingComponent);
     }
   }
 
-  _renderFilm(filmListElement, film, changeData) {
-    const filmCardComponent = new FilmCard(film);
-    const filmDetailsComponent = new FilmDetails(film);
-
-    const showFilmModal = () => {
-      document.addEventListener('keydown', onEscKeyDown);
-
-      document.body.appendChild(filmDetailsComponent.getElement());
-
-      document.body.classList.add('hide-overflow');
-    };
-
-    const hideFilmModal = () => {
-      document.body.removeChild(filmDetailsComponent.getElement());
-
-      document.body.classList.remove('hide-overflow');
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        hideFilmModal();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    const onFavouriteCLick = () => {
-      console.log('FAV TEST');
-
-      changeData(
-        Object.assign({}, film, {
-          isFavorite: !film.isFavorite,
-        }),
-      );
-    };
-
-    const onWatchListCLick = () => {
-      console.log('TO WATCH TEST');
-
-      changeData(
-        Object.assign({}, film, {
-          isWatchList: !film.isWatchList,
-        }),
-      );
-    };
-
-    const onAlreadyWatchedCLick = () => {
-      console.log('WATCHED TEST');
-
-      changeData(
-        Object.assign({}, film, {
-          isAlreadyWatched: !film.isAlreadyWatched,
-        }),
-      );
-    };
-
-    filmCardComponent.setClickHandler(showFilmModal);
-    filmCardComponent.setFavoriteClickHandler(onFavouriteCLick);
-    filmCardComponent.setWatchListClickHandler(onWatchListCLick);
-    filmCardComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
-
-    filmDetailsComponent.setClickHandler(hideFilmModal);
-    filmDetailsComponent.setFavoriteClickHandler(onFavouriteCLick);
-    filmDetailsComponent.setWatchListClickHandler(onWatchListCLick);
-    filmDetailsComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
-
-    renderElement(filmListElement, filmCardComponent.getElement());
-  }
-
   _renderFilms() {
+    const filmsListElement = this._allMoviesComponent
+      .getElement()
+      .querySelector('.films-list__container');
+
     this._topRatedComponent = new TopRatedContainer(this._homeFilms);
     this._mostCommentedComponent = new MostCommentedContainer(this._homeFilms);
 
@@ -130,10 +71,15 @@ export default class Home {
       const sliced = this._homeFilms.slice(0, FILM_COUNT_PER_STEP);
       for (let i = 0; i < sliced.length; i++) {
         const film = sliced[i];
-        const filmsListElement = this._allMoviesComponent
-          .getElement()
-          .querySelector('.films-list__container');
-        this._renderFilm(filmsListElement, film, this._handleFilmChange);
+
+        const filmPresenter = new FilmPresenter(
+          filmsListElement,
+          this._handleFilmChange,
+        );
+        filmPresenter.init(film);
+        filmPresenter.render();
+
+        this._filmPresenters[film.id] = filmPresenter;
       }
 
       if (this._homeFilms.length > FILM_COUNT_PER_STEP) {
@@ -167,7 +113,15 @@ export default class Home {
         const filmsListElement = this._allMoviesComponent
           .getElement()
           .querySelector('.films-list__container');
-        this._renderFilm(filmsListElement, film, this._handleFilmChange);
+
+        const filmPresenter = new FilmPresenter(
+          filmsListElement,
+          this._handleFilmChange,
+        );
+        filmPresenter.init(film);
+        filmPresenter.render();
+
+        this._filmPresenters[film.id] = filmPresenter;
       }
 
       renderedFilmCount += FILM_COUNT_PER_STEP;
