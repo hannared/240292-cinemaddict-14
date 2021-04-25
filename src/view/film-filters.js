@@ -5,7 +5,7 @@ export const getHistoryFilms = (a) => {
 };
 
 export const getWatchlistFilms = (a) => {
-  const watchlistFilms = a.filter((film) => film.isWatchlist);
+  const watchlistFilms = a.filter((film) => film.isWatchList);
 
   return watchlistFilms;
 };

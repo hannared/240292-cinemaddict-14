@@ -267,7 +267,7 @@ const generateFilm = (i) => {
     },
 
     isFavorite: Boolean(getRandomInteger(0, 1)),
-    isWatchlist: Boolean(getRandomInteger(0, 1)),
+    isWatchList: Boolean(getRandomInteger(0, 1)),
     isAlreadyWatched: watched.alreadyWatched,
     watchingDate: watched.watchingDate,
     comments: commentsList.map((element) => {
