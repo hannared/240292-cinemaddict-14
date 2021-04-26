@@ -86,4 +86,8 @@ export default class FilmPresenter {
   render() {
     this._renderFilm();
   }
+
+  getComponent() {
+    return this._filmCardComponent;
+  }
 }

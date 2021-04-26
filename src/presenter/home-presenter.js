@@ -40,7 +40,21 @@ export default class Home {
     this._siteMenuComponent = new SiteMenu(this._homeFilms);
     replace(this._siteMenuComponent, oldSiteMenu);
 
-    // this._filmPresenters[updatedFilm.id].init(updatedFilm);
+    const filmPresenter = this._filmPresenters[updatedFilm.id];
+
+    const filmsListElement = this._allMoviesComponent
+      .getElement()
+      .querySelector('.films-list__container');
+
+    const filmPresenterNew = new FilmPresenter(
+      filmsListElement,
+      this._handleFilmChange,
+    );
+    filmPresenterNew.init(updatedFilm);
+    filmPresenterNew.render();
+    replace(filmPresenterNew.getComponent(), filmPresenter.getComponent());
+
+    this._filmPresenters[updatedFilm.id] = filmPresenterNew;
   }
 
   _renderSiteMenu() {
