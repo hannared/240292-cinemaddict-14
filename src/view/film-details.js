@@ -19,6 +19,9 @@ const createFilmDetailsTemplate = (film = {}) => {
     alternativeTitle,
     release,
     commentsList,
+    isFavorite,
+    isWatchList,
+    isAlreadyWatched,
   } = film;
 
   const releaseDate = dayjs(release.date).format(RELEASE_DATE_FORMAT);
@@ -28,6 +31,10 @@ const createFilmDetailsTemplate = (film = {}) => {
   const genresTemplate = genre
     .map((element) => `<span class="film-details__genre">${element}</span>`)
     .join('');
+
+  const isWatchListAttribute = isWatchList ? 'checked' : '';
+  const isAlreadyWatchedAttribute = isAlreadyWatched ? 'checked' : '';
+  const isFavoriteAttribute = isFavorite ? 'checked' : '';
 
   return `
   <section class="film-details">
@@ -92,13 +99,13 @@ const createFilmDetailsTemplate = (film = {}) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" ${isWatchListAttribute} class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" ${isAlreadyWatchedAttribute} class="film-details__control-input visually-hidden" id="watched" name="watched">
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" ${isFavoriteAttribute} class="film-details__control-input visually-hidden" id="favorite" name="favorite">
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
