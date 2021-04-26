@@ -56,8 +56,6 @@ export default class FilmPresenter {
     const filmDetailsComponent = new FilmDetails(film);
 
     const onFavouriteCLick = () => {
-      console.log('FAV TEST');
-
       this._changeData(
         Object.assign({}, film, {
           isFavorite: !film.isFavorite,
@@ -66,8 +64,6 @@ export default class FilmPresenter {
     };
 
     const onWatchListCLick = () => {
-      console.log('TO WATCH TEST');
-
       this._changeData(
         Object.assign({}, film, {
           isWatchList: !film.isWatchList,
@@ -76,8 +72,6 @@ export default class FilmPresenter {
     };
 
     const onAlreadyWatchedCLick = () => {
-      console.log('WATCHED TEST');
-
       this._changeData(
         Object.assign({}, film, {
           isAlreadyWatched: !film.isAlreadyWatched,
@@ -100,8 +94,6 @@ export default class FilmPresenter {
   }
 
   resetView() {
-    console.log('RESET');
-
     this.hideFilmModal();
   }
 

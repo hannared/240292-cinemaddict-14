@@ -9,7 +9,6 @@ import SiteMenu from '../view/site-menu';
 import Sorting from '../view/sorting';
 import FilmPresenter from './film-presenter';
 
-const FILM_COUNT = 26;
 const FILM_COUNT_PER_STEP = 5;
 
 export default class Home {
@@ -38,10 +37,7 @@ export default class Home {
   }
 
   _handleFilmChange(updatedFilm) {
-    console.log('UPDATED FILM: ', updatedFilm);
-
     this._homeFilms = updateItem(this._homeFilms, updatedFilm);
-    console.log('UPDATED FILMS: ', this._homeFilms);
 
     const oldSiteMenu = this._siteMenuComponent;
     this._siteMenuComponent = new SiteMenu(this._homeFilms);
