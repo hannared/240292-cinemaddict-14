@@ -21,9 +21,16 @@ export default class Home {
     this._noFilmComponent = new NoFilm();
     this._showMoreButtonComponent = new ShowMoreBtn();
 
+    this._handleModeChange = this._handleModeChange.bind(this);
     this._handleFilmChange = this._handleFilmChange.bind(this);
 
     this._filmPresenters = {};
+  }
+
+  _handleModeChange() {
+    Object.values(this._filmPresenters).forEach((presenter) =>
+      presenter.resetView(),
+    );
   }
 
   init(homeFilms) {
@@ -49,6 +56,7 @@ export default class Home {
     const filmPresenterNew = new FilmPresenter(
       filmsListElement,
       this._handleFilmChange,
+      this._handleModeChange,
     );
     filmPresenterNew.init(updatedFilm);
     filmPresenterNew.render();
@@ -89,6 +97,7 @@ export default class Home {
         const filmPresenter = new FilmPresenter(
           filmsListElement,
           this._handleFilmChange,
+          this._handleModeChange,
         );
         filmPresenter.init(film);
         filmPresenter.render();
@@ -131,6 +140,7 @@ export default class Home {
         const filmPresenter = new FilmPresenter(
           filmsListElement,
           this._handleFilmChange,
+          this._handleModeChange,
         );
         filmPresenter.init(film);
         filmPresenter.render();
