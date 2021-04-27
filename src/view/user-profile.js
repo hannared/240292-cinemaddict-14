@@ -14,9 +14,7 @@ const getUserRating = (alreadyWatchedList) => {
 };
 
 const createUserProfileTemplate = (films) => {
-  const alreadyWatchedList = films.filter(
-    (film) => film.userDetails.alreadyWatched,
-  );
+  const alreadyWatchedList = films.filter((film) => film.isAlreadyWatched);
   const profileRating = getUserRating(alreadyWatchedList);
 
   return `<section class="header__profile profile">
@@ -27,12 +25,12 @@ const createUserProfileTemplate = (films) => {
 };
 
 export default class UserProfile extends Abstract {
-  constructor(film) {
+  constructor(films) {
     super();
-    this._film = film;
+    this._films = films;
   }
 
   getTemplate() {
-    return createUserProfileTemplate(this._film);
+    return createUserProfileTemplate(this._films);
   }
 }

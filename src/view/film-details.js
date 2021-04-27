@@ -19,6 +19,9 @@ const createFilmDetailsTemplate = (film = {}) => {
     alternativeTitle,
     release,
     commentsList,
+    isFavorite,
+    isWatchList,
+    isAlreadyWatched,
   } = film;
 
   const releaseDate = dayjs(release.date).format(RELEASE_DATE_FORMAT);
@@ -28,6 +31,10 @@ const createFilmDetailsTemplate = (film = {}) => {
   const genresTemplate = genre
     .map((element) => `<span class="film-details__genre">${element}</span>`)
     .join('');
+
+  const isWatchListAttribute = isWatchList ? 'checked' : '';
+  const isAlreadyWatchedAttribute = isAlreadyWatched ? 'checked' : '';
+  const isFavoriteAttribute = isFavorite ? 'checked' : '';
 
   return `
   <section class="film-details">
@@ -92,13 +99,13 @@ const createFilmDetailsTemplate = (film = {}) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" ${isWatchListAttribute} class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" ${isAlreadyWatchedAttribute} class="film-details__control-input visually-hidden" id="watched" name="watched">
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" ${isFavoriteAttribute} class="film-details__control-input visually-hidden" id="favorite" name="favorite">
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -150,6 +157,11 @@ export default class FilmDetails extends Abstract {
     super();
     this._film = film;
     this._clickCloseBtnHandler = this._clickCloseBtnHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+    this._watchListClickHandler = this._watchListClickHandler.bind(this);
+    this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
+      this,
+    );
   }
 
   getTemplate() {
@@ -160,10 +172,43 @@ export default class FilmDetails extends Abstract {
     this._callback.click();
   }
 
-  setCloseBtnClickHandler(callback) {
+  _favoriteClickHandler() {
+    this._callback.favoriteClick();
+  }
+
+  _watchListClickHandler() {
+    this._callback.watchListClick();
+  }
+
+  _alreadyWatchedClickHandler() {
+    this._callback.alreadyWatchedClick();
+  }
+
+  setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement()
       .querySelector('.film-details__close-btn')
       .addEventListener('click', this._clickCloseBtnHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement()
+      .querySelector('.film-details__control-label--favorite')
+      .addEventListener('click', this._favoriteClickHandler);
+  }
+
+  setWatchListClickHandler(callback) {
+    this._callback.watchListClick = callback;
+    this.getElement()
+      .querySelector('.film-details__control-label--watchlist')
+      .addEventListener('click', this._watchListClickHandler);
+  }
+
+  setAlreadyWatchedClickHandler(callback) {
+    this._callback.alreadyWatchedClick = callback;
+    this.getElement()
+      .querySelector('.film-details__control-label--watched')
+      .addEventListener('click', this._alreadyWatchedClickHandler);
   }
 }

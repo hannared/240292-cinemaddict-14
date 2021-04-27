@@ -4,9 +4,11 @@ import Abstract from './abstract';
 export const getSortByDateFilms = (films) => {
   return _.sortBy(films, ['year']);
 };
+
 export const getSortByRatingFilms = (films) => {
   return _.sortBy(films, ['rating']);
 };
+
 export const getSortByDefaultFilms = (films) => {
   return films;
 };
@@ -23,6 +25,7 @@ export default class Sorting extends Abstract {
   getTemplate() {
     return createSortingTemplate();
   }
+
   removeElement() {
     this._element.remove();
 
