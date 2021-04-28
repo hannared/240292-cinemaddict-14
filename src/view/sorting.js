@@ -1,8 +1,8 @@
-import _ from 'lodash';
 import Abstract from './abstract';
 
 const createSortingTemplate = () => {
-  return `<ul class="sort"></ul>`;
+  return `
+  <ul class="sort"></ul>`;
 };
 
 export default class Sorting extends Abstract {

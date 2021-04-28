@@ -6,11 +6,10 @@ import TopRatedContainer from '../view/film-top-rated';
 import NoFilm from '../view/no-film';
 import ShowMoreBtn from '../view/show-more-btn';
 import Sorting from '../view/sorting';
-import SortingButton, {
-  getSortByDateFilms,
-  getSortByDefaultFilms,
-  getSortByRatingFilms,
-} from '../view/sorting-button';
+import SortingButton from '../view/sorting-button';
+import { getSortByDefaultFilms } from '../view/sorting-button';
+import { getSortByRatingFilms } from '../view/sorting-button';
+import { getSortByDateFilms } from '../view/sorting-button';
 import FilmPresenter from './film-presenter';
 
 const FILM_COUNT_PER_STEP = 5;
