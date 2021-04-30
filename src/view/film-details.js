@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import Abstract from './abstract';
 import { createFilmCommentsTemplate } from './film-comments';
 import { RELEASE_DATE_FORMAT } from './film-consts';
+import Smart from './smart';
 
 const createFilmDetailsTemplate = (film = {}) => {
   const {
@@ -152,7 +152,7 @@ const createFilmDetailsTemplate = (film = {}) => {
 `;
 };
 
-export default class FilmDetails extends Abstract {
+export default class FilmDetails extends Smart {
   constructor(film) {
     super();
     this._film = film;
@@ -162,6 +162,12 @@ export default class FilmDetails extends Abstract {
     this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
       this,
     );
+    this._emojiSmileClickHandler = this._emojiSmileClickHandler.bind(this);
+    this._emojiSleepingClickHandler = this._emojiSleepingClickHandler.bind(
+      this,
+    );
+    this._emojiPukeClickHandler = this._emojiPukeClickHandler.bind(this);
+    this._emojiAngryClickHandler = this._emojiAngryClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -182,6 +188,77 @@ export default class FilmDetails extends Abstract {
 
   _alreadyWatchedClickHandler() {
     this._callback.alreadyWatchedClick();
+  }
+
+  _emojiSmileClickHandler(evt) {
+    const el = evt.target;
+    const cln = el.cloneNode(true);
+
+    this.getElement().querySelector(
+      '.film-details__add-emoji-label',
+    ).innerHTML = '';
+
+    this.getElement()
+      .querySelector('.film-details__add-emoji-label')
+      .appendChild(cln);
+    cln.setAttribute('width', '55');
+    cln.setAttribute('height', '55');
+
+    this._callback.emojiSmileClick();
+  }
+
+  _emojiSleepingClickHandler(evt) {
+    const el = evt.target;
+    const cln = el.cloneNode(true);
+
+    this.getElement().querySelector(
+      '.film-details__add-emoji-label',
+    ).innerHTML = '';
+
+    this.getElement()
+      .querySelector('.film-details__add-emoji-label')
+      .appendChild(cln);
+
+    cln.setAttribute('width', '55');
+    cln.setAttribute('height', '55');
+
+    this._callback.emojiSleepingClick();
+  }
+
+  _emojiPukeClickHandler(evt) {
+    const el = evt.target;
+    const cln = el.cloneNode(true);
+
+    this.getElement().querySelector(
+      '.film-details__add-emoji-label',
+    ).innerHTML = '';
+
+    this.getElement()
+      .querySelector('.film-details__add-emoji-label')
+      .appendChild(cln);
+
+    cln.setAttribute('width', '55');
+    cln.setAttribute('height', '55');
+
+    this._callback.emojiPukeClick();
+  }
+
+  _emojiAngryClickHandler(evt) {
+    const el = evt.target;
+    const cln = el.cloneNode(true);
+
+    this.getElement().querySelector(
+      '.film-details__add-emoji-label',
+    ).innerHTML = '';
+
+    this.getElement()
+      .querySelector('.film-details__add-emoji-label')
+      .appendChild(cln);
+
+    cln.setAttribute('width', '55');
+    cln.setAttribute('height', '55');
+
+    this._callback.emojiAngryClick();
   }
 
   setClickHandler(callback) {
@@ -210,5 +287,33 @@ export default class FilmDetails extends Abstract {
     this.getElement()
       .querySelector('.film-details__control-label--watched')
       .addEventListener('click', this._alreadyWatchedClickHandler);
+  }
+
+  setEmojiSmileClickHandler(callback) {
+    this._callback.emojiSmileClick = callback;
+    this.getElement()
+      .querySelector('label[for="emoji-smile"]')
+      .addEventListener('click', this._emojiSmileClickHandler);
+  }
+
+  setEmojiSleepingClickHandler(callback) {
+    this._callback.emojiSleepingClick = callback;
+    this.getElement()
+      .querySelector('label[for="emoji-sleeping"]')
+      .addEventListener('click', this._emojiSleepingClickHandler);
+  }
+
+  setEmojiPukeClickHandler(callback) {
+    this._callback.emojiPukeClick = callback;
+    this.getElement()
+      .querySelector('label[for="emoji-puke"]')
+      .addEventListener('click', this._emojiPukeClickHandler);
+  }
+
+  setEmojiAngryClickHandler(callback) {
+    this._callback.emojiAngryClick = callback;
+    this.getElement()
+      .querySelector('label[for="emoji-angry"]')
+      .addEventListener('click', this._emojiAngryClickHandler);
   }
 }
