@@ -1,4 +1,5 @@
 import { renderElement, updateItem, replace } from '../utils';
+import { UpdateType } from '../utils/observer';
 import AllMoviesContainer from '../view/film-all-movies';
 import FilmContainer from '../view/film-container';
 import MostCommentedContainer from '../view/film-most-commented';
@@ -15,10 +16,9 @@ import FilmPresenter from './film-presenter';
 const FILM_COUNT_PER_STEP = 5;
 
 export default class FilmsPresenter {
-  constructor(homeContainer, changeFilms) {
+  constructor(homeContainer, movies) {
     this._homeContainer = homeContainer;
-
-    this._changeFilms = changeFilms;
+    this._movies = movies;
 
     this._sortingComponent = new Sorting();
     this._filmContainerComponent = new FilmContainer();
@@ -37,14 +37,14 @@ export default class FilmsPresenter {
     );
   }
 
-  init(homeFilms) {
-    this._homeFilms = homeFilms.slice();
+  init() {
+    this._homeFilms = this._movies.getMovies();
   }
 
   _handleFilmChange(updatedFilm) {
-    this._homeFilms = updateItem(this._homeFilms, updatedFilm);
+    this._movies.updateMovie(UpdateType.MINOR, updatedFilm);
 
-    this._changeFilms(this._homeFilms);
+    this._homeFilms = this._movies.getMovies();
 
     const filmPresenter = this._filmPresenters[updatedFilm.id];
 

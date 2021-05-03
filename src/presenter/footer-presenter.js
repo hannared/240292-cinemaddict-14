@@ -2,12 +2,13 @@ import { renderElement } from '../utils';
 import FooterStatistics from '../view/footer-statistics';
 
 export default class Footer {
-  constructor(footerContainer) {
+  constructor(footerContainer, movies) {
     this._footerContainer = footerContainer;
+    this._movies = movies;
   }
 
-  init(homeFilms) {
-    this._homeFilms = homeFilms.slice();
+  init() {
+    this._homeFilms = this._movies.getMovies();
   }
 
   _renderFooterStatistics() {

@@ -30,10 +30,10 @@ git remote add academy git@github.com:htmlacademy-ecmascript/240292-cinemaddict-
 Когда вы обновили `master`, создайте ветку для нового задания:
 
 ```
-git checkout -b module2-task1
+git checkout -b module2-movie1
 ```
 
-`module2-task1` — это название ветки. Под описанием каждого задания в интерфейсе курса для вас будет указано правильное название ветки.
+`module2-movie1` — это название ветки. Под описанием каждого задания в интерфейсе курса для вас будет указано правильное название ветки.
 
 --
 

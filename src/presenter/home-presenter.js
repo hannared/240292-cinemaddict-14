@@ -3,29 +3,29 @@ import SiteMenu from '../view/site-menu';
 import FilmsPresenter from './films-presenter';
 
 export default class Home {
-  constructor(homeContainer) {
+  constructor(homeContainer, movies) {
     this._homeContainer = homeContainer;
+    this._movies = movies;
 
     this._handleFilmsChange = this._handleFilmsChange.bind(this);
 
-    this._filmsPresenter = new FilmsPresenter(
-      homeContainer,
-      this._handleFilmsChange,
-    );
+    this._filmsPresenter = new FilmsPresenter(homeContainer, movies);
+
+    movies.addObserver(this._handleFilmsChange);
   }
 
-  _handleFilmsChange(films) {
-    this._homeFilms = films;
+  _handleFilmsChange() {
+    this._homeFilms = this._movies.getMovies();
 
     const oldSiteMenu = this._siteMenuComponent;
     this._siteMenuComponent = new SiteMenu(this._homeFilms);
     replace(this._siteMenuComponent, oldSiteMenu);
   }
 
-  init(homeFilms) {
-    this._homeFilms = homeFilms.slice();
+  init() {
+    this._homeFilms = this._movies.getMovies();
 
-    this._filmsPresenter.init(homeFilms);
+    this._filmsPresenter.init();
   }
 
   _renderSiteMenu() {
