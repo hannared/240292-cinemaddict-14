@@ -190,10 +190,9 @@ export default class FilmDetails extends Smart {
     this._callback.alreadyWatchedClick();
   }
 
-  _emojiSmileClickHandler(evt) {
+  _addEmojiIcon(evt, icon) {
     const el = evt.target;
     const cln = el.cloneNode(true);
-
     this.getElement().querySelector(
       '.film-details__add-emoji-label',
     ).innerHTML = '';
@@ -204,70 +203,28 @@ export default class FilmDetails extends Smart {
     cln.setAttribute('width', '55');
     cln.setAttribute('height', '55');
 
-    this.getElement().querySelector('.film-details__emoji-item').value =
-      'smile';
+    this.getElement().querySelector('.film-details__emoji-item').value = icon;
+  }
 
+  _emojiSmileClickHandler(evt, smile) {
+    this._addEmojiIcon(evt, smile);
     this._callback.emojiSmileClick();
   }
 
-  _emojiSleepingClickHandler(evt) {
-    const el = evt.target;
-    const cln = el.cloneNode(true);
-
-    this.getElement().querySelector(
-      '.film-details__add-emoji-label',
-    ).innerHTML = '';
-
-    this.getElement()
-      .querySelector('.film-details__add-emoji-label')
-      .appendChild(cln);
-
-    cln.setAttribute('width', '55');
-    cln.setAttribute('height', '55');
-
-    this.getElement().querySelector('.film-details__emoji-item').value =
-      'slleping';
+  _emojiSleepingClickHandler(evt, sleeping) {
+    this._addEmojiIcon(evt, sleeping);
 
     this._callback.emojiSleepingClick();
   }
 
-  _emojiPukeClickHandler(evt) {
-    const el = evt.target;
-    const cln = el.cloneNode(true);
-
-    this.getElement().querySelector(
-      '.film-details__add-emoji-label',
-    ).innerHTML = '';
-
-    this.getElement()
-      .querySelector('.film-details__add-emoji-label')
-      .appendChild(cln);
-
-    cln.setAttribute('width', '55');
-    cln.setAttribute('height', '55');
-
-    this.getElement().querySelector('.film-details__emoji-item').value = 'puke';
+  _emojiPukeClickHandler(evt, puke) {
+    this._addEmojiIcon(evt, puke);
 
     this._callback.emojiPukeClick();
   }
 
-  _emojiAngryClickHandler(evt) {
-    const el = evt.target;
-    const cln = el.cloneNode(true);
-
-    this.getElement().querySelector(
-      '.film-details__add-emoji-label',
-    ).innerHTML = '';
-
-    this.getElement()
-      .querySelector('.film-details__add-emoji-label')
-      .appendChild(cln);
-
-    cln.setAttribute('width', '55');
-    cln.setAttribute('height', '55');
-
-    this.getElement().querySelector('.film-details__emoji-item').value =
-      'angry';
+  _emojiAngryClickHandler(evt, angry) {
+    this._addEmojiIcon(evt, angry);
 
     this._callback.emojiAngryClick();
   }
