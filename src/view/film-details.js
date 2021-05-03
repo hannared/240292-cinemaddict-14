@@ -204,6 +204,9 @@ export default class FilmDetails extends Smart {
     cln.setAttribute('width', '55');
     cln.setAttribute('height', '55');
 
+    this.getElement().querySelector('.film-details__emoji-item').value =
+      'smile';
+
     this._callback.emojiSmileClick();
   }
 
@@ -221,6 +224,9 @@ export default class FilmDetails extends Smart {
 
     cln.setAttribute('width', '55');
     cln.setAttribute('height', '55');
+
+    this.getElement().querySelector('.film-details__emoji-item').value =
+      'slleping';
 
     this._callback.emojiSleepingClick();
   }
@@ -240,6 +246,8 @@ export default class FilmDetails extends Smart {
     cln.setAttribute('width', '55');
     cln.setAttribute('height', '55');
 
+    this.getElement().querySelector('.film-details__emoji-item').value = 'puke';
+
     this._callback.emojiPukeClick();
   }
 
@@ -257,6 +265,9 @@ export default class FilmDetails extends Smart {
 
     cln.setAttribute('width', '55');
     cln.setAttribute('height', '55');
+
+    this.getElement().querySelector('.film-details__emoji-item').value =
+      'angry';
 
     this._callback.emojiAngryClick();
   }
