@@ -4,6 +4,7 @@ export default class Smart extends Abstract {
   constructor() {
     super();
   }
+
   restoreHandlers() {
     //абстрактный метод restoreHandlers, его нужно будет реализовать в наследнике.
     //Его задача — восстанавливать обработчики событий после перерисовки;

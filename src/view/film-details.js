@@ -155,6 +155,7 @@ const createFilmDetailsTemplate = (film = {}) => {
 export default class FilmDetails extends Smart {
   constructor(film) {
     super();
+
     this._film = film;
     this._clickCloseBtnHandler = this._clickCloseBtnHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
@@ -162,17 +163,33 @@ export default class FilmDetails extends Smart {
     this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
       this,
     );
-    this._emojiSmileClickHandler = this._emojiSmileClickHandler.bind(this);
-    this._emojiSleepingClickHandler = this._emojiSleepingClickHandler.bind(
-      this,
-    );
-    this._emojiPukeClickHandler = this._emojiPukeClickHandler.bind(this);
-    this._emojiAngryClickHandler = this._emojiAngryClickHandler.bind(this);
+
+    this._emojiClickHandler = this._emojiClickHandler.bind(this);
+
+    this.getElement()
+      .querySelector('label[for="emoji-smile"]')
+      .addEventListener('click', this._emojiClickHandler);
+    this.getElement()
+      .querySelector('label[for="emoji-sleeping"]')
+      .addEventListener('click', this._emojiClickHandler);
+
+    this.getElement()
+      .querySelector('label[for="emoji-puke"]')
+      .addEventListener('click', this._emojiClickHandler);
+
+    this.getElement()
+      .querySelector('label[for="emoji-angry"]')
+      .addEventListener('click', this._emojiClickHandler);
+  }
+
+  _emojiClickHandler(evt) {
+    this._addEmojiIcon(evt);
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
   }
+
   _clickCloseBtnHandler(evt) {
     evt.preventDefault();
     this._callback.click();
@@ -190,7 +207,7 @@ export default class FilmDetails extends Smart {
     this._callback.alreadyWatchedClick();
   }
 
-  _addEmojiIcon(evt, icon) {
+  _addEmojiIcon(evt) {
     const el = evt.target;
     const cln = el.cloneNode(true);
     this.getElement().querySelector(
@@ -202,31 +219,6 @@ export default class FilmDetails extends Smart {
       .appendChild(cln);
     cln.setAttribute('width', '55');
     cln.setAttribute('height', '55');
-
-    this.getElement().querySelector('.film-details__emoji-item').value = icon;
-  }
-
-  _emojiSmileClickHandler(evt, smile) {
-    this._addEmojiIcon(evt, smile);
-    this._callback.emojiSmileClick();
-  }
-
-  _emojiSleepingClickHandler(evt, sleeping) {
-    this._addEmojiIcon(evt, sleeping);
-
-    this._callback.emojiSleepingClick();
-  }
-
-  _emojiPukeClickHandler(evt, puke) {
-    this._addEmojiIcon(evt, puke);
-
-    this._callback.emojiPukeClick();
-  }
-
-  _emojiAngryClickHandler(evt, angry) {
-    this._addEmojiIcon(evt, angry);
-
-    this._callback.emojiAngryClick();
   }
 
   setClickHandler(callback) {
@@ -255,33 +247,5 @@ export default class FilmDetails extends Smart {
     this.getElement()
       .querySelector('.film-details__control-label--watched')
       .addEventListener('click', this._alreadyWatchedClickHandler);
-  }
-
-  setEmojiSmileClickHandler(callback) {
-    this._callback.emojiSmileClick = callback;
-    this.getElement()
-      .querySelector('label[for="emoji-smile"]')
-      .addEventListener('click', this._emojiSmileClickHandler);
-  }
-
-  setEmojiSleepingClickHandler(callback) {
-    this._callback.emojiSleepingClick = callback;
-    this.getElement()
-      .querySelector('label[for="emoji-sleeping"]')
-      .addEventListener('click', this._emojiSleepingClickHandler);
-  }
-
-  setEmojiPukeClickHandler(callback) {
-    this._callback.emojiPukeClick = callback;
-    this.getElement()
-      .querySelector('label[for="emoji-puke"]')
-      .addEventListener('click', this._emojiPukeClickHandler);
-  }
-
-  setEmojiAngryClickHandler(callback) {
-    this._callback.emojiAngryClick = callback;
-    this.getElement()
-      .querySelector('label[for="emoji-angry"]')
-      .addEventListener('click', this._emojiAngryClickHandler);
   }
 }
