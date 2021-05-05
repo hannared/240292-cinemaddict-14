@@ -1,4 +1,5 @@
 import { generateFilms } from './mock/film.js';
+import Filters from './model/filters.js';
 import Movies from './model/movies.js';
 import Footer from './presenter/footer-presenter.js';
 import Header from './presenter/header-presenter.js';
@@ -15,11 +16,13 @@ const films = generateFilms(FILM_COUNT);
 const movies = new Movies();
 movies.setMovies(films);
 
+const filters = new Filters();
+
 const header = new Header(siteHeaderElement, movies);
 header.init();
 header.render();
 
-const home = new Home(siteMainElement, movies);
+const home = new Home(siteMainElement, movies, filters);
 home.init();
 home.render();
 

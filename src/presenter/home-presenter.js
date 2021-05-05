@@ -1,42 +1,43 @@
 import { renderElement, replace } from '../utils';
 import SiteMenu from '../view/site-menu';
 import FilmsPresenter from './films-presenter';
+import Filters from './filter-presenter';
 
 export default class Home {
-  constructor(homeContainer, movies) {
+  constructor(homeContainer, movies, filters) {
     this._homeContainer = homeContainer;
     this._movies = movies;
+    this._filters = filters;
 
     this._handleFilmsChange = this._handleFilmsChange.bind(this);
 
     this._filmsPresenter = new FilmsPresenter(homeContainer, movies);
+    this._filtersPresenter = new Filters(
+      this._homeContainer,
+      this._filters,
+      this._movies,
+    );
 
     movies.addObserver(this._handleFilmsChange);
+    filters.addObserver(this._handleFilmsChange);
   }
 
   _handleFilmsChange() {
     this._homeFilms = this._movies.getMovies();
 
-    const oldSiteMenu = this._siteMenuComponent;
-    this._siteMenuComponent = new SiteMenu(this._homeFilms);
-    replace(this._siteMenuComponent, oldSiteMenu);
+    // FilterPresenter render
+    // FilmsPresenter render
+
+    this._filtersPresenter.update();
   }
 
   init() {
-    this._homeFilms = this._movies.getMovies();
-
+    this._filtersPresenter.init();
     this._filmsPresenter.init();
   }
 
-  _renderSiteMenu() {
-    this._siteMenuComponent = new SiteMenu(this._homeFilms);
-
-    renderElement(this._homeContainer, this._siteMenuComponent);
-  }
-
   _renderHome() {
-    this._renderSiteMenu();
-
+    this._filtersPresenter.render();
     this._filmsPresenter.render();
   }
 

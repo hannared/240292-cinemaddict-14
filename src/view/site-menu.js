@@ -1,7 +1,7 @@
-import Abstract from './abstract.js';
 import { getHistoryFilms } from './film-filters.js';
 import { getWatchlistFilms } from './film-filters.js';
 import { getFavoriteFilms } from './film-filters.js';
+import Smart from './smart.js';
 
 const createSiteMenuTemplate = (films) => {
   const historyFilms = getHistoryFilms(films);
@@ -19,11 +19,17 @@ const createSiteMenuTemplate = (films) => {
 </nav>`;
 };
 
-export default class SiteMenu extends Abstract {
+export default class SiteMenu extends Smart {
   constructor(films) {
     super();
 
     this._films = films;
+  }
+
+  updateData(films) {
+    this._films = films;
+
+    this.updateElement();
   }
 
   getTemplate() {

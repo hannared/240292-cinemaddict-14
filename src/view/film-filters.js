@@ -1,5 +1,5 @@
-export const getHistoryFilms = (a) => {
-  const historyFilms = a.filter((film) => film.isAlreadyWatched);
+export const getHistoryFilms = (films) => {
+  const historyFilms = films.filter((film) => film.isAlreadyWatched);
 
   return historyFilms;
 };
