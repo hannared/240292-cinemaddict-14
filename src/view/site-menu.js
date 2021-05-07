@@ -1,5 +1,4 @@
 import Abstract from './abstract.js';
-import Smart from './smart.js';
 
 const createSiteMenuTemplate = () => {
   return `<nav class="main-navigation">

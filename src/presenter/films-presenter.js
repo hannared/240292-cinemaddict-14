@@ -1,4 +1,4 @@
-import { renderElement, updateItem, replace } from '../utils';
+import { renderElement, replace } from '../utils';
 import { UpdateType } from '../utils/observer';
 import AllMoviesContainer from '../view/film-all-movies';
 import FilmContainer from '../view/film-container';
@@ -16,9 +16,10 @@ import FilmPresenter from './film-presenter';
 const FILM_COUNT_PER_STEP = 5;
 
 export default class FilmsPresenter {
-  constructor(homeContainer, movies) {
+  constructor(homeContainer, movies, sorting) {
     this._homeContainer = homeContainer;
     this._movies = movies;
+    this._sorting = sorting;
 
     this._sortingComponent = new Sorting();
     this._filmContainerComponent = new FilmContainer();
@@ -39,6 +40,14 @@ export default class FilmsPresenter {
 
   init() {
     this._homeFilms = this._movies.getMovies();
+  }
+
+  update(films) {
+    this._homeFilms = films;
+
+    this._clearFilms();
+
+    this._renderFilms();
   }
 
   _handleFilmChange(updatedFilm) {
@@ -78,24 +87,17 @@ export default class FilmsPresenter {
         sortingByDate.reset();
         sortingByRating.reset();
 
-        this._homeFilms = getSortByDefaultFilms(this._homeFilms);
-
-        this._clearFilms();
-
-        this._renderFilms();
+        this._sorting.setSorting(getSortByDefaultFilms);
       });
 
       renderElement(this._sortingComponent, sortingByDate);
+
       sortingByDate.setSortingClickHandler(() => {
         sortingByDefault.reset();
         sortingByDate.reset();
         sortingByRating.reset();
 
-        this._homeFilms = getSortByDateFilms(this._homeFilms);
-
-        this._clearFilms();
-
-        this._renderFilms();
+        this._sorting.setSorting(getSortByDateFilms);
       });
 
       renderElement(this._sortingComponent, sortingByRating);
@@ -104,11 +106,7 @@ export default class FilmsPresenter {
         sortingByDate.reset();
         sortingByRating.reset();
 
-        this._homeFilms = getSortByRatingFilms(this._homeFilms);
-
-        this._clearFilms();
-
-        this._renderFilms();
+        this._sorting.setSorting(getSortByRatingFilms);
       });
     }
   }

@@ -4,7 +4,6 @@ export default class Filters extends Observer {
   constructor() {
     super();
 
-    // filters.setFilter(getHistoryFilms)
     this._filter = (films) => films;
   }
 
