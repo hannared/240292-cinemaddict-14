@@ -1,3 +1,5 @@
+import he from 'he';
+
 export const createFilmCommentsTemplate = (comments, ids) => {
   const array = [];
 
@@ -20,7 +22,7 @@ export const createFilmCommentTemplate = (comment = {}) => {
     <img src="./images/emoji/${emotion}" width="55" height="55" alt="emoji-smile">
   </span>
   <div>
-    <p class="film-details__comment-text">${message}</p>
+    <p class="film-details__comment-text">${he.encode(message)}</p>
     <p class="film-details__comment-info">
       <span class="film-details__comment-author">${author}</span>
       <span class="film-details__comment-day">${date}</span>
