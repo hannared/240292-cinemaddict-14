@@ -18,7 +18,7 @@ export default class Movies extends Observer {
     const index = this._movies.findIndex((movie) => movie.id === update.id);
 
     if (index === -1) {
-      throw new Error("Can't update unexisting movie");
+      throw new Error('Can not update unexisting movie');
     }
 
     this._movies = [
@@ -40,7 +40,7 @@ export default class Movies extends Observer {
     const index = this._movies.findIndex((movie) => movie.id === update.id);
 
     if (index === -1) {
-      throw new Error("Can't delete unexisting movie");
+      throw new Error('Can not delete unexisting movie');
     }
 
     this._movies = [

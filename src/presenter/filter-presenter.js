@@ -1,10 +1,12 @@
 import { renderElement } from '../utils';
-import FilterButton, {
-  getAllFilms,
-  getFavoriteFilms,
-  getHistoryFilms,
-  getWatchlistFilms,
-} from '../view/film-filters';
+import FilterButton from '../view/film-filters';
+
+import { getAllFilms } from '../view/film-filters';
+
+import { getFavoriteFilms } from '../view/film-filters';
+
+import { getHistoryFilms, getWatchlistFilms } from '../view/film-filters';
+
 import SiteMenu from '../view/site-menu';
 
 export default class Filters {

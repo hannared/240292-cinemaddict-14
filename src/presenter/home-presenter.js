@@ -1,5 +1,3 @@
-import { renderElement, replace } from '../utils';
-import SiteMenu from '../view/site-menu';
 import FilmsPresenter from './films-presenter';
 import Filters from './filter-presenter';
 
