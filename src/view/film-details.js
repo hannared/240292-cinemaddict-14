@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import _ from 'lodash';
 import { createFilmCommentsTemplate } from './film-comments';
 import { RELEASE_DATE_FORMAT } from './film-consts';
 import Smart from './smart';
@@ -165,10 +166,12 @@ export default class FilmDetails extends Smart {
     );
 
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
+    this._deleteClickHandler = this._deleteClickHandler.bind(this);
 
     this.getElement()
       .querySelector('label[for="emoji-smile"]')
       .addEventListener('click', this._emojiClickHandler);
+
     this.getElement()
       .querySelector('label[for="emoji-sleeping"]')
       .addEventListener('click', this._emojiClickHandler);
@@ -221,6 +224,16 @@ export default class FilmDetails extends Smart {
     cln.setAttribute('height', '55');
   }
 
+  _deleteClickHandler(evt) {
+    evt.preventDefault();
+
+    const el = evt.target.getAttribute('data-id');
+    this._film.comments = _.remove(this._film.comments, el);
+    this._film.commentsList = _.remove(this._film.commentsList, el);
+
+    this.updateData(this._film);
+  }
+
   setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement()
@@ -247,5 +260,31 @@ export default class FilmDetails extends Smart {
     this.getElement()
       .querySelector('.film-details__control-label--watched')
       .addEventListener('click', this._alreadyWatchedClickHandler);
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+
+    const buttons = this.getElement().querySelectorAll(
+      '.film-details__comment-delete',
+    );
+    buttons.forEach((button) => {
+      button.addEventListener('click', this._deleteClickHandler);
+    });
+  }
+
+  restoreHandlers() {
+    this.setAlreadyWatchedClickHandler(this._callback.alreadyWatchedClick);
+    this.setWatchListClickHandler(this._callback.alreadyWatchedClick);
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setDeleteClickHandler(this._callback.deleteClick);
+  }
+
+  updateData(film) {
+    this._film = film;
+
+    this.updateElement();
+
+    this.restoreHandlers();
   }
 }
