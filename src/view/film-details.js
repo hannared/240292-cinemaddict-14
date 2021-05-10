@@ -164,10 +164,15 @@ export default class FilmDetails extends Smart {
     this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
       this,
     );
+    this._addClickHandler = this._addClickHandler.bind(this);
 
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
     this._deleteClickHandler = this._deleteClickHandler.bind(this);
 
+    this.emojiClicks();
+  }
+
+  emojiClicks() {
     this.getElement()
       .querySelector('label[for="emoji-smile"]')
       .addEventListener('click', this._emojiClickHandler);
@@ -234,6 +239,32 @@ export default class FilmDetails extends Smart {
     this.updateData(this._film);
   }
 
+  _addClickHandler(evt) {
+    if (evt.key === 'Enter') {
+      evt.preventDefault();
+
+      const emotion = this.getElement().querySelector(
+        '.film-details__emoji-item:checked',
+      ).value;
+
+      const id = Math.floor(Math.random() * 1000);
+      const date = new Date();
+
+      const comment = {
+        id: id,
+        author: 'John Doe',
+        message: evt.target.value,
+        date: dayjs(date).fromNow(),
+        emotion: emotion + '.png',
+      };
+
+      this._film.commentsList.push(comment);
+      this._film.comments.push(id);
+
+      this.updateData(this._film);
+    }
+  }
+
   setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement()
@@ -273,11 +304,22 @@ export default class FilmDetails extends Smart {
     });
   }
 
+  setAddClickHandler(callback) {
+    this._callback.addClick = callback;
+
+    this.getElement()
+      .querySelector('.film-details__comment-input')
+      .addEventListener('keydown', this._addClickHandler);
+  }
+
   restoreHandlers() {
     this.setAlreadyWatchedClickHandler(this._callback.alreadyWatchedClick);
     this.setWatchListClickHandler(this._callback.alreadyWatchedClick);
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setDeleteClickHandler(this._callback.deleteClick);
+    this.setAddClickHandler(this._callback.addClick);
+
+    this.emojiClicks();
   }
 
   updateData(film) {

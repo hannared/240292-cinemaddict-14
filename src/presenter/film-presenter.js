@@ -37,6 +37,8 @@ export default class FilmPresenter {
     document.body.appendChild(this._filmDetailsComponent.getElement());
 
     document.body.classList.add('hide-overflow');
+
+    this._filmDetailsComponent.updateData(this._film);
   }
 
   hideFilmModal() {
@@ -89,6 +91,7 @@ export default class FilmPresenter {
     filmDetailsComponent.setWatchListClickHandler(onWatchListCLick);
     filmDetailsComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
     filmDetailsComponent.setDeleteClickHandler(() => {});
+    filmDetailsComponent.setAddClickHandler(() => {});
 
     this._filmCardComponent = filmCardComponent;
     this._filmDetailsComponent = filmDetailsComponent;
