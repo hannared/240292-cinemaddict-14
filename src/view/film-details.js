@@ -303,6 +303,7 @@ export default class FilmDetails extends Smart {
     const buttons = this.getElement().querySelectorAll(
       '.film-details__comment-delete',
     );
+
     buttons.forEach((button) => {
       button.addEventListener('click', this._deleteClickHandler);
     });
@@ -322,6 +323,7 @@ export default class FilmDetails extends Smart {
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setDeleteClickHandler(this._callback.deleteClick);
     this.setAddClickHandler(this._callback.addClick);
+    this.setClickHandler(this._callback.click);
 
     this.emojiClicks();
   }

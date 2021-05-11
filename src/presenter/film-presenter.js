@@ -92,6 +92,7 @@ export default class FilmPresenter {
     filmDetailsComponent.setFavoriteClickHandler(onFavouriteCLick);
     filmDetailsComponent.setWatchListClickHandler(onWatchListCLick);
     filmDetailsComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
+
     filmDetailsComponent.setDeleteClickHandler(() => {
       this._movies.updateMovie(UpdateType.MINOR, this._film);
     });
