@@ -232,15 +232,17 @@ export default class FilmDetails extends Smart {
   _deleteClickHandler(evt) {
     evt.preventDefault();
 
-    const el = evt.target.getAttribute('data-id');
-    this._film.comments = _.remove(this._film.comments, el);
-    this._film.commentsList = _.remove(this._film.commentsList, el);
+    const id = parseInt(evt.target.getAttribute('data-id'));
+    _.remove(this._film.comments, (cid) => cid === id);
+    _.remove(this._film.commentsList, (comment) => comment.id === id);
 
     this.updateData(this._film);
+
+    this._callback.deleteClick();
   }
 
   _addClickHandler(evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key == 'Enter') {
       evt.preventDefault();
 
       const emotion = this.getElement().querySelector(
@@ -262,6 +264,8 @@ export default class FilmDetails extends Smart {
       this._film.comments.push(id);
 
       this.updateData(this._film);
+
+      this._callback.addClick();
     }
   }
 

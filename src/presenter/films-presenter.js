@@ -65,6 +65,7 @@ export default class FilmsPresenter {
       filmsListElement,
       this._handleFilmChange,
       this._handleModeChange,
+      this._movies,
     );
     filmPresenterNew.init(updatedFilm);
     filmPresenterNew.render();
@@ -139,6 +140,7 @@ export default class FilmsPresenter {
           filmsListElement,
           this._handleFilmChange,
           this._handleModeChange,
+          this._movies,
         );
         filmPresenter.init(film);
         filmPresenter.render();
@@ -182,6 +184,7 @@ export default class FilmsPresenter {
           filmsListElement,
           this._handleFilmChange,
           this._handleModeChange,
+          this._movies,
         );
         filmPresenter.init(film);
         filmPresenter.render();
