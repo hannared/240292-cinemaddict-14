@@ -42,6 +42,15 @@ export default class FilmsPresenter {
     this._homeFilms = this._movies.getMovies();
   }
 
+  hide() {
+    this._sortingComponent.hideElement();
+    this._filmContainerComponent.hideElement();
+  }
+
+  show() {
+    this._sortingComponent.showElement();
+  }
+
   update(films) {
     this._homeFilms = films;
 

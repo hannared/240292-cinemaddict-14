@@ -6,20 +6,26 @@ import { getAllFilms } from '../view/film-filters';
 import { getFavoriteFilms } from '../view/film-filters';
 
 import { getHistoryFilms, getWatchlistFilms } from '../view/film-filters';
-
-import SiteMenu from '../view/site-menu';
+import StatsButton from '../view/stats-btn';
 
 export default class Filters {
-  constructor(homeContainer, filters, movies) {
-    this._homeContainer = homeContainer;
+  constructor(
+    siteMenuComponent,
+    filters,
+    movies,
+    _statsPresenter,
+    _filmsPresenter,
+  ) {
+    this._siteMenuComponent = siteMenuComponent;
     this._filters = filters;
     this._movies = movies;
+    this._statsPresenter = _statsPresenter;
+    this._filmsPresenter = _filmsPresenter;
   }
 
   init() {}
 
   render() {
-    this._renderSiteMenu();
     this._renderFilterButtons();
   }
 
@@ -66,6 +72,8 @@ export default class Filters {
       getFavoriteFilms,
     );
 
+    const statsBtn = new StatsButton(false);
+
     renderElement(
       this._siteMenuComponent
         .getElement()
@@ -77,8 +85,12 @@ export default class Filters {
       filterWatchList.reset();
       filterHistory.reset();
       filterFavorites.reset();
+      statsBtn.reset();
 
       this._filters.setFilter(getAllFilms);
+
+      this._statsPresenter.hide();
+      this._filmsPresenter.show();
     });
 
     renderElement(
@@ -93,8 +105,12 @@ export default class Filters {
       filterWatchList.reset();
       filterHistory.reset();
       filterFavorites.reset();
+      statsBtn.reset();
 
       this._filters.setFilter(getWatchlistFilms);
+
+      this._statsPresenter.hide();
+      this._filmsPresenter.show();
     });
 
     renderElement(
@@ -109,8 +125,12 @@ export default class Filters {
       filterWatchList.reset();
       filterHistory.reset();
       filterFavorites.reset();
+      statsBtn.reset();
 
       this._filters.setFilter(getHistoryFilms);
+
+      this._statsPresenter.hide();
+      this._filmsPresenter.show();
     });
 
     renderElement(
@@ -125,19 +145,31 @@ export default class Filters {
       filterWatchList.reset();
       filterHistory.reset();
       filterFavorites.reset();
+      statsBtn.reset();
 
       this._filters.setFilter(getFavoriteFilms);
+
+      this._statsPresenter.hide();
+      this._filmsPresenter.show();
+    });
+
+    renderElement(this._siteMenuComponent, statsBtn);
+
+    statsBtn.setStatsClickHandler(() => {
+      filterByDefault.reset();
+      filterWatchList.reset();
+      filterHistory.reset();
+      filterFavorites.reset();
+      statsBtn.reset();
+
+      this._statsPresenter.show();
+      this._filmsPresenter.hide();
     });
 
     this._filterByDefault = filterByDefault;
     this._filterWatchList = filterWatchList;
     this._filterHistory = filterHistory;
     this._filterFavorite = filterFavorites;
-  }
-
-  _renderSiteMenu() {
-    this._siteMenuComponent = new SiteMenu(this._movies.getMovies());
-
-    renderElement(this._homeContainer, this._siteMenuComponent);
+    this._statsBtn = statsBtn;
   }
 }

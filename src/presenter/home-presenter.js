@@ -1,5 +1,8 @@
+import { renderElement } from '../utils';
+import SiteMenu from '../view/site-menu';
 import FilmsPresenter from './films-presenter';
 import Filters from './filter-presenter';
+import Statistics from './stats-presenter';
 
 export default class Home {
   constructor(homeContainer, movies, filters, sorting) {
@@ -10,16 +13,26 @@ export default class Home {
 
     this._handleFilmsChange = this._handleFilmsChange.bind(this);
 
+    this._statsPresenter = new Statistics(homeContainer, movies);
+
+    this._siteMenuComponent = new SiteMenu(this._movies.getMovies());
+
     this._filmsPresenter = new FilmsPresenter(homeContainer, movies, sorting);
     this._filtersPresenter = new Filters(
-      this._homeContainer,
+      this._siteMenuComponent,
       this._filters,
       this._movies,
+      this._statsPresenter,
+      this._filmsPresenter,
     );
 
     movies.addObserver(this._handleFilmsChange);
     filters.addObserver(this._handleFilmsChange);
     sorting.addObserver(this._handleFilmsChange);
+  }
+
+  _renderSiteMenu() {
+    renderElement(this._homeContainer, this._siteMenuComponent);
   }
 
   _handleFilmsChange() {
@@ -40,11 +53,15 @@ export default class Home {
   init() {
     this._filtersPresenter.init();
     this._filmsPresenter.init();
+    this._statsPresenter.init();
   }
 
   _renderHome() {
+    this._renderSiteMenu();
+
     this._filtersPresenter.render();
     this._filmsPresenter.render();
+    this._statsPresenter.render();
   }
 
   render() {

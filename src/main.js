@@ -5,6 +5,7 @@ import Sorting from './model/sorting.js';
 import Footer from './presenter/footer-presenter.js';
 import Header from './presenter/header-presenter.js';
 import Home from './presenter/home-presenter.js';
+import Statistics from './presenter/stats-presenter.js';
 
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
