@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Abstract from './abstract';
+import Smart from './smart';
 
 export const getSortByDateFilms = (films) => {
   return _.sortBy(films, ['year']);
@@ -17,7 +17,7 @@ const createSortingButtonTemplate = (title) => {
   return `<li><a href="#" class="sort__button">${title}</a></li>`;
 };
 
-export default class SortingButton extends Abstract {
+export default class SortingButton extends Smart {
   constructor(title, selected) {
     super();
 

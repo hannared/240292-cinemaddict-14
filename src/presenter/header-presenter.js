@@ -2,12 +2,13 @@ import { renderElement } from '../utils';
 import UserProfile from '../view/user-profile';
 
 export default class Header {
-  constructor(headerContainer) {
+  constructor(headerContainer, movies) {
+    this._movies = movies;
     this._headerContainer = headerContainer;
   }
 
-  init(homeFilms) {
-    this._homeFilms = homeFilms.slice();
+  init() {
+    this._homeFilms = this._movies.getMovies();
   }
 
   _renderUserProfile() {

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import _ from 'lodash';
 import { createFilmCommentsTemplate } from './film-comments';
 import { RELEASE_DATE_FORMAT } from './film-consts';
 import Smart from './smart';
@@ -155,6 +156,7 @@ const createFilmDetailsTemplate = (film = {}) => {
 export default class FilmDetails extends Smart {
   constructor(film) {
     super();
+
     this._film = film;
     this._clickCloseBtnHandler = this._clickCloseBtnHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
@@ -162,17 +164,40 @@ export default class FilmDetails extends Smart {
     this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
       this,
     );
-    this._emojiSmileClickHandler = this._emojiSmileClickHandler.bind(this);
-    this._emojiSleepingClickHandler = this._emojiSleepingClickHandler.bind(
-      this,
-    );
-    this._emojiPukeClickHandler = this._emojiPukeClickHandler.bind(this);
-    this._emojiAngryClickHandler = this._emojiAngryClickHandler.bind(this);
+    this._addClickHandler = this._addClickHandler.bind(this);
+
+    this._emojiClickHandler = this._emojiClickHandler.bind(this);
+    this._deleteClickHandler = this._deleteClickHandler.bind(this);
+
+    this.emojiClicks();
+  }
+
+  emojiClicks() {
+    this.getElement()
+      .querySelector('label[for="emoji-smile"]')
+      .addEventListener('click', this._emojiClickHandler);
+
+    this.getElement()
+      .querySelector('label[for="emoji-sleeping"]')
+      .addEventListener('click', this._emojiClickHandler);
+
+    this.getElement()
+      .querySelector('label[for="emoji-puke"]')
+      .addEventListener('click', this._emojiClickHandler);
+
+    this.getElement()
+      .querySelector('label[for="emoji-angry"]')
+      .addEventListener('click', this._emojiClickHandler);
+  }
+
+  _emojiClickHandler(evt) {
+    this._addEmojiIcon(evt);
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
   }
+
   _clickCloseBtnHandler(evt) {
     evt.preventDefault();
     this._callback.click();
@@ -190,7 +215,7 @@ export default class FilmDetails extends Smart {
     this._callback.alreadyWatchedClick();
   }
 
-  _addEmojiIcon(evt, icon) {
+  _addEmojiIcon(evt) {
     const el = evt.target;
     const cln = el.cloneNode(true);
     this.getElement().querySelector(
@@ -202,31 +227,46 @@ export default class FilmDetails extends Smart {
       .appendChild(cln);
     cln.setAttribute('width', '55');
     cln.setAttribute('height', '55');
-
-    this.getElement().querySelector('.film-details__emoji-item').value = icon;
   }
 
-  _emojiSmileClickHandler(evt, smile) {
-    this._addEmojiIcon(evt, smile);
-    this._callback.emojiSmileClick();
+  _deleteClickHandler(evt) {
+    evt.preventDefault();
+
+    const id = parseInt(evt.target.getAttribute('data-id'));
+    _.remove(this._film.comments, (cid) => cid === id);
+    _.remove(this._film.commentsList, (comment) => comment.id === id);
+
+    this.updateData(this._film);
+
+    this._callback.deleteClick();
   }
 
-  _emojiSleepingClickHandler(evt, sleeping) {
-    this._addEmojiIcon(evt, sleeping);
+  _addClickHandler(evt) {
+    if (evt.key == 'Enter') {
+      evt.preventDefault();
 
-    this._callback.emojiSleepingClick();
-  }
+      const emotion = this.getElement().querySelector(
+        '.film-details__emoji-item:checked',
+      ).value;
 
-  _emojiPukeClickHandler(evt, puke) {
-    this._addEmojiIcon(evt, puke);
+      const id = Math.floor(Math.random() * 1000);
+      const date = new Date();
 
-    this._callback.emojiPukeClick();
-  }
+      const comment = {
+        id: id,
+        author: 'John Doe',
+        message: evt.target.value,
+        date: dayjs(date).fromNow(),
+        emotion: emotion + '.png',
+      };
 
-  _emojiAngryClickHandler(evt, angry) {
-    this._addEmojiIcon(evt, angry);
+      this._film.commentsList.push(comment);
+      this._film.comments.push(id);
 
-    this._callback.emojiAngryClick();
+      this.updateData(this._film);
+
+      this._callback.addClick();
+    }
   }
 
   setClickHandler(callback) {
@@ -257,31 +297,42 @@ export default class FilmDetails extends Smart {
       .addEventListener('click', this._alreadyWatchedClickHandler);
   }
 
-  setEmojiSmileClickHandler(callback) {
-    this._callback.emojiSmileClick = callback;
-    this.getElement()
-      .querySelector('label[for="emoji-smile"]')
-      .addEventListener('click', this._emojiSmileClickHandler);
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+
+    const buttons = this.getElement().querySelectorAll(
+      '.film-details__comment-delete',
+    );
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', this._deleteClickHandler);
+    });
   }
 
-  setEmojiSleepingClickHandler(callback) {
-    this._callback.emojiSleepingClick = callback;
+  setAddClickHandler(callback) {
+    this._callback.addClick = callback;
+
     this.getElement()
-      .querySelector('label[for="emoji-sleeping"]')
-      .addEventListener('click', this._emojiSleepingClickHandler);
+      .querySelector('.film-details__comment-input')
+      .addEventListener('keydown', this._addClickHandler);
   }
 
-  setEmojiPukeClickHandler(callback) {
-    this._callback.emojiPukeClick = callback;
-    this.getElement()
-      .querySelector('label[for="emoji-puke"]')
-      .addEventListener('click', this._emojiPukeClickHandler);
+  restoreHandlers() {
+    this.setAlreadyWatchedClickHandler(this._callback.alreadyWatchedClick);
+    this.setWatchListClickHandler(this._callback.alreadyWatchedClick);
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setDeleteClickHandler(this._callback.deleteClick);
+    this.setAddClickHandler(this._callback.addClick);
+    this.setClickHandler(this._callback.click);
+
+    this.emojiClicks();
   }
 
-  setEmojiAngryClickHandler(callback) {
-    this._callback.emojiAngryClick = callback;
-    this.getElement()
-      .querySelector('label[for="emoji-angry"]')
-      .addEventListener('click', this._emojiAngryClickHandler);
+  updateData(film) {
+    this._film = film;
+
+    this.updateElement();
+
+    this.restoreHandlers();
   }
 }

@@ -1,4 +1,5 @@
 import { renderElement } from '../utils';
+import { UpdateType } from '../utils/observer';
 import FilmCard from '../view/film-card';
 import FilmDetails from '../view/film-details';
 
@@ -7,10 +8,11 @@ const Mode = {
   POPUP: 'POPUP',
 };
 export default class FilmPresenter {
-  constructor(filmContainer, changeData, changeMode) {
+  constructor(filmContainer, changeData, changeMode, movies) {
     this._filmContainer = filmContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
+    this._movies = movies;
 
     this._mode = Mode.DEFAULT;
 
@@ -37,6 +39,8 @@ export default class FilmPresenter {
     document.body.appendChild(this._filmDetailsComponent.getElement());
 
     document.body.classList.add('hide-overflow');
+
+    this._filmDetailsComponent.updateData(this._film);
   }
 
   hideFilmModal() {
@@ -88,10 +92,13 @@ export default class FilmPresenter {
     filmDetailsComponent.setFavoriteClickHandler(onFavouriteCLick);
     filmDetailsComponent.setWatchListClickHandler(onWatchListCLick);
     filmDetailsComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
-    filmDetailsComponent.setEmojiSmileClickHandler(() => {});
-    filmDetailsComponent.setEmojiSleepingClickHandler(() => {});
-    filmDetailsComponent.setEmojiPukeClickHandler(() => {});
-    filmDetailsComponent.setEmojiAngryClickHandler(() => {});
+
+    filmDetailsComponent.setDeleteClickHandler(() => {
+      this._movies.updateMovie(UpdateType.MINOR, this._film);
+    });
+    filmDetailsComponent.setAddClickHandler(() => {
+      this._movies.updateMovie(UpdateType.MINOR, this._film);
+    });
 
     this._filmCardComponent = filmCardComponent;
     this._filmDetailsComponent = filmDetailsComponent;

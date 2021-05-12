@@ -1,42 +1,49 @@
-import { renderElement, replace } from '../utils';
-import SiteMenu from '../view/site-menu';
 import FilmsPresenter from './films-presenter';
+import Filters from './filter-presenter';
 
 export default class Home {
-  constructor(homeContainer) {
+  constructor(homeContainer, movies, filters, sorting) {
     this._homeContainer = homeContainer;
+    this._movies = movies;
+    this._filters = filters;
+    this._sorting = sorting;
 
     this._handleFilmsChange = this._handleFilmsChange.bind(this);
 
-    this._filmsPresenter = new FilmsPresenter(
-      homeContainer,
-      this._handleFilmsChange,
+    this._filmsPresenter = new FilmsPresenter(homeContainer, movies, sorting);
+    this._filtersPresenter = new Filters(
+      this._homeContainer,
+      this._filters,
+      this._movies,
     );
+
+    movies.addObserver(this._handleFilmsChange);
+    filters.addObserver(this._handleFilmsChange);
+    sorting.addObserver(this._handleFilmsChange);
   }
 
-  _handleFilmsChange(films) {
-    this._homeFilms = films;
+  _handleFilmsChange() {
+    this._homeFilms = this._movies.getMovies();
 
-    const oldSiteMenu = this._siteMenuComponent;
-    this._siteMenuComponent = new SiteMenu(this._homeFilms);
-    replace(this._siteMenuComponent, oldSiteMenu);
+    const filter = this._filters.getFilter();
+    this._homeFilms = filter(this._homeFilms);
+
+    const sorting = this._sorting.getSorting();
+    this._homeFilms = sorting(this._homeFilms);
+
+    // FilterPresenter render
+    // FilmsPresenter render
+    this._filmsPresenter.update(this._homeFilms);
+    this._filtersPresenter.update();
   }
 
-  init(homeFilms) {
-    this._homeFilms = homeFilms.slice();
-
-    this._filmsPresenter.init(homeFilms);
-  }
-
-  _renderSiteMenu() {
-    this._siteMenuComponent = new SiteMenu(this._homeFilms);
-
-    renderElement(this._homeContainer, this._siteMenuComponent);
+  init() {
+    this._filtersPresenter.init();
+    this._filmsPresenter.init();
   }
 
   _renderHome() {
-    this._renderSiteMenu();
-
+    this._filtersPresenter.render();
     this._filmsPresenter.render();
   }
 
