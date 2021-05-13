@@ -15,7 +15,17 @@ const titles = [
   'The great Flamarion',
   'The Man with The Golden Arm',
 ];
-const genres = ['Musical', 'History', 'Thriller', 'Drama', 'Film-Noir'];
+const genres = [
+  'Drama',
+  'Adventure',
+  'Comedy',
+  'Animation',
+  'Family',
+  'Sci-Fi',
+  'Thriller',
+  'Horror',
+  'Action',
+];
 
 const emotions = ['angry.png', 'puke.png', 'sleeping.png', 'smile.png'];
 

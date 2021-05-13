@@ -5,15 +5,16 @@ import Filters from './filter-presenter';
 import Statistics from './stats-presenter';
 
 export default class Home {
-  constructor(homeContainer, movies, filters, sorting) {
+  constructor(homeContainer, movies, filters, sorting, statsFilters) {
     this._homeContainer = homeContainer;
     this._movies = movies;
     this._filters = filters;
     this._sorting = sorting;
+    this._statsFilters = statsFilters;
 
     this._handleFilmsChange = this._handleFilmsChange.bind(this);
 
-    this._statsPresenter = new Statistics(homeContainer, movies);
+    this._statsPresenter = new Statistics(homeContainer, movies, statsFilters);
 
     this._siteMenuComponent = new SiteMenu(this._movies.getMovies());
 
