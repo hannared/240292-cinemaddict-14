@@ -1,7 +1,12 @@
+import { getAllTimeStats } from '../model/stats-filters';
 import { renderElement } from '../utils';
 import { ChartView } from '../view/chart-view';
 import Stats from '../view/stats';
 import StatsFilterButton, { StatsFilterLabel } from '../view/stats-filter-btn';
+import StatsWatchedText, {
+  StatsDurationText,
+  StatsTopGenreText,
+} from '../view/stats-text';
 
 export default class Statistics {
   constructor(homeContainer, movies, statsFilters) {
@@ -60,6 +65,8 @@ export default class Statistics {
       filterWeek.reset();
       filterMonth.reset();
       filterYear.reset();
+
+      this._statsFilters.setStatsFilter(getAllTimeStats);
     });
 
     renderElement(
@@ -128,6 +135,26 @@ export default class Statistics {
       filterWeek.reset();
       filterMonth.reset();
     });
+
+    const statsWatched = new StatsWatchedText('22');
+
+    renderElement(
+      this._stats.getElement().querySelector('.statistic__text-list'),
+      statsWatched,
+    );
+
+    const statsDuration = new StatsDurationText({ hours: 120, minutes: 53 });
+
+    renderElement(
+      this._stats.getElement().querySelector('.statistic__text-list'),
+      statsDuration,
+    );
+
+    const statsTopGenre = new StatsTopGenreText('Sci-fi');
+    renderElement(
+      this._stats.getElement().querySelector('.statistic__text-list'),
+      statsTopGenre,
+    );
   }
 
   _renderStats() {
