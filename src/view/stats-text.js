@@ -30,7 +30,9 @@ export default class StatsWatchedText extends Smart {
   }
 
   getTemplate() {
-    return createStatsWatchedTemplate(this._data);
+    const { number } = this._data;
+
+    return createStatsWatchedTemplate(number);
   }
 }
 
@@ -42,7 +44,6 @@ export class StatsDurationText extends Smart {
   }
 
   getTemplate() {
-    // Example: { hours: 10, minutes: 53 }
     const { hours, minutes } = this._data;
 
     return createStatsDurationTemplate(hours, minutes);

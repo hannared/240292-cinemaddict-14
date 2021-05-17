@@ -244,7 +244,10 @@ const generateFilm = (i) => {
     let watchingDate = '';
 
     if (alreadyWatched) {
-      watchingDate = dayjs.between('2020-06-10', '2021-03-02');
+      const today = new Date();
+      const from = dayjs(today).subtract(30, 'day');
+      const to = today;
+      watchingDate = dayjs.between(from, to);
     }
 
     return { alreadyWatched, watchingDate };

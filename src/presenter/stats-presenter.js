@@ -1,6 +1,18 @@
-import { getAllTimeStats } from '../model/stats-filters';
+import StatsFilters, {
+  getAllTimeStats,
+  getMonthStats,
+  getTodayStats,
+  getWatchedStatsAll,
+  getWatchedStatsMonth,
+  getWatchedStatsToday,
+  getWatchedStatsWeek,
+  getWatchedStatsYear,
+  getWeekStats,
+  getYearStats,
+} from '../model/stats-filters';
 import { renderElement } from '../utils';
 import { ChartView } from '../view/chart-view';
+import { getWatchlistFilms } from '../view/film-filters';
 import Stats from '../view/stats';
 import StatsFilterButton, { StatsFilterLabel } from '../view/stats-filter-btn';
 import StatsWatchedText, {
@@ -13,6 +25,39 @@ export default class Statistics {
     this._homeContainer = homeContainer;
     this._movies = movies;
     this._statsFilters = statsFilters;
+
+    this._statsWatchedCounterFilters = new StatsFilters();
+
+    this._handleStatsFilterChange = this._handleStatsFilterChange.bind(this);
+    this._handleWatchedStatsFilterChange = this._handleWatchedStatsFilterChange.bind(
+      this,
+    );
+
+    this._statsFilters.addObserver(this._handleStatsFilterChange);
+    this._statsWatchedCounterFilters.addObserver(
+      this._handleWatchedStatsFilterChange,
+    );
+  }
+
+  _handleStatsFilterChange() {
+    const films = this._movies.getMovies();
+
+    const filter = this._statsFilters.getStatsFilter();
+
+    const stats = filter(films);
+
+    this._chart.updateData(stats);
+    this._chart.draw();
+  }
+
+  _handleWatchedStatsFilterChange() {
+    const films = this._movies.getMovies();
+
+    const filter = this._statsWatchedCounterFilters.getStatsFilter();
+
+    const stats = filter(films);
+
+    this._statsWatched.updateData({ number: stats });
   }
 
   init() {
@@ -67,6 +112,7 @@ export default class Statistics {
       filterYear.reset();
 
       this._statsFilters.setStatsFilter(getAllTimeStats);
+      this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsAll);
     });
 
     renderElement(
@@ -84,6 +130,9 @@ export default class Statistics {
       filterWeek.reset();
       filterMonth.reset();
       filterYear.reset();
+
+      this._statsFilters.setStatsFilter(getTodayStats);
+      this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsToday);
     });
 
     renderElement(
@@ -101,6 +150,9 @@ export default class Statistics {
       filterToday.reset();
       filterMonth.reset();
       filterYear.reset();
+
+      this._statsFilters.setStatsFilter(getWeekStats);
+      this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsWeek);
     });
 
     renderElement(
@@ -118,6 +170,9 @@ export default class Statistics {
       filterToday.reset();
       filterWeek.reset();
       filterYear.reset();
+
+      this._statsFilters.setStatsFilter(getMonthStats);
+      this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsMonth);
     });
 
     renderElement(
@@ -134,10 +189,14 @@ export default class Statistics {
       filterToday.reset();
       filterWeek.reset();
       filterMonth.reset();
+
+      this._statsFilters.setStatsFilter(getYearStats);
+      this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsYear);
     });
 
-    const statsWatched = new StatsWatchedText('22');
-
+    const watchedCounter = getWatchedStatsAll(this._movies.getMovies());
+    const statsWatched = new StatsWatchedText({ number: watchedCounter });
+    this._statsWatched = statsWatched;
     renderElement(
       this._stats.getElement().querySelector('.statistic__text-list'),
       statsWatched,
