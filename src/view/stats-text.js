@@ -58,6 +58,7 @@ export class StatsTopGenreText extends Smart {
   }
 
   getTemplate() {
-    return createStatsTopGenreTemplate(this._data);
+    const { genre } = this._data;
+    return createStatsTopGenreTemplate(genre);
   }
 }

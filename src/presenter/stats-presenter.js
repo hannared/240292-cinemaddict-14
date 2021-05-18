@@ -2,6 +2,7 @@ import StatsFilters, {
   getAllTimeStats,
   getMonthStats,
   getTodayStats,
+  getWatchedDurationAll,
   getWatchedStatsAll,
   getWatchedStatsMonth,
   getWatchedStatsToday,
@@ -9,10 +10,14 @@ import StatsFilters, {
   getWatchedStatsYear,
   getWeekStats,
   getYearStats,
+  getWatchedDurationToday,
+  getWatchedDurationWeek,
+  getWatchedDurationMonth,
+  getWatchedDurationYear,
+  getTopGenreAll,
 } from '../model/stats-filters';
 import { renderElement } from '../utils';
 import { ChartView } from '../view/chart-view';
-import { getWatchlistFilms } from '../view/film-filters';
 import Stats from '../view/stats';
 import StatsFilterButton, { StatsFilterLabel } from '../view/stats-filter-btn';
 import StatsWatchedText, {
@@ -27,15 +32,31 @@ export default class Statistics {
     this._statsFilters = statsFilters;
 
     this._statsWatchedCounterFilters = new StatsFilters();
+    this._statsWatchedDurationFilters = new StatsFilters();
+    this._statsTopGenreFilters = new StatsFilters();
 
     this._handleStatsFilterChange = this._handleStatsFilterChange.bind(this);
     this._handleWatchedStatsFilterChange = this._handleWatchedStatsFilterChange.bind(
+      this,
+    );
+    this._handleWatchedDurationStatsFilterChange = this._handleWatchedDurationStatsFilterChange.bind(
+      this,
+    );
+    this._handleTopGenreStatsFilterChange = this._handleTopGenreStatsFilterChange.bind(
       this,
     );
 
     this._statsFilters.addObserver(this._handleStatsFilterChange);
     this._statsWatchedCounterFilters.addObserver(
       this._handleWatchedStatsFilterChange,
+    );
+
+    this._statsWatchedDurationFilters.addObserver(
+      this._handleWatchedDurationStatsFilterChange,
+    );
+
+    this._statsTopGenreFilters.addObserver(
+      this._handleTopGenreStatsFilterChange,
     );
   }
 
@@ -58,6 +79,26 @@ export default class Statistics {
     const stats = filter(films);
 
     this._statsWatched.updateData({ number: stats });
+  }
+
+  _handleWatchedDurationStatsFilterChange() {
+    const films = this._movies.getMovies();
+
+    const filter = this._statsWatchedDurationFilters.getStatsFilter();
+
+    const stats = filter(films);
+
+    this._statsDuration.updateData(stats);
+  }
+
+  _handleTopGenreStatsFilterChange() {
+    const films = this._movies.getMovies();
+
+    const filter = this._statsTopGenreFilters.getStatsFilter();
+
+    const stats = filter(this._statsFilters, films);
+
+    this._statsTopGenre.updateData(stats);
   }
 
   init() {
@@ -113,6 +154,8 @@ export default class Statistics {
 
       this._statsFilters.setStatsFilter(getAllTimeStats);
       this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsAll);
+      this._statsWatchedDurationFilters.setStatsFilter(getWatchedDurationAll);
+      this._statsTopGenreFilters.setStatsFilter(getTopGenreAll);
     });
 
     renderElement(
@@ -133,6 +176,8 @@ export default class Statistics {
 
       this._statsFilters.setStatsFilter(getTodayStats);
       this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsToday);
+      this._statsWatchedDurationFilters.setStatsFilter(getWatchedDurationToday);
+      this._statsTopGenreFilters.setStatsFilter(getTopGenreAll);
     });
 
     renderElement(
@@ -153,6 +198,8 @@ export default class Statistics {
 
       this._statsFilters.setStatsFilter(getWeekStats);
       this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsWeek);
+      this._statsWatchedDurationFilters.setStatsFilter(getWatchedDurationWeek);
+      this._statsTopGenreFilters.setStatsFilter(getTopGenreAll);
     });
 
     renderElement(
@@ -173,6 +220,8 @@ export default class Statistics {
 
       this._statsFilters.setStatsFilter(getMonthStats);
       this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsMonth);
+      this._statsWatchedDurationFilters.setStatsFilter(getWatchedDurationMonth);
+      this._statsTopGenreFilters.setStatsFilter(getTopGenreAll);
     });
 
     renderElement(
@@ -192,6 +241,8 @@ export default class Statistics {
 
       this._statsFilters.setStatsFilter(getYearStats);
       this._statsWatchedCounterFilters.setStatsFilter(getWatchedStatsYear);
+      this._statsWatchedDurationFilters.setStatsFilter(getWatchedDurationYear);
+      this._statsTopGenreFilters.setStatsFilter(getTopGenreAll);
     });
 
     const watchedCounter = getWatchedStatsAll(this._movies.getMovies());
@@ -202,14 +253,18 @@ export default class Statistics {
       statsWatched,
     );
 
-    const statsDuration = new StatsDurationText({ hours: 120, minutes: 53 });
-
+    const watchedDuration = getWatchedDurationAll(this._movies.getMovies());
+    const statsDuration = new StatsDurationText(watchedDuration);
+    this._statsDuration = statsDuration;
     renderElement(
       this._stats.getElement().querySelector('.statistic__text-list'),
       statsDuration,
     );
 
-    const statsTopGenre = new StatsTopGenreText('Sci-fi');
+    const statsTopGenre = new StatsTopGenreText(
+      getTopGenreAll(this._statsFilters, this._movies.getMovies()),
+    );
+    this._statsTopGenre = statsTopGenre;
     renderElement(
       this._stats.getElement().querySelector('.statistic__text-list'),
       statsTopGenre,

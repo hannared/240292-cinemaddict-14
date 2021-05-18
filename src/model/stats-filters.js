@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import Observer, { UpdateType } from '../utils/observer.js';
 import isBetween from 'dayjs/plugin/isBetween';
+import _ from 'lodash';
 
 dayjs.extend(isBetween);
 
@@ -28,8 +29,9 @@ export const getAllTimeStats = (movies) => {
       if (stats[genre] === undefined) {
         stats[genre] = 0;
       }
-
-      stats[genre] += 1;
+      if (movie.isAlreadyWatched) {
+        stats[genre] += 1;
+      }
     });
   });
 
@@ -48,7 +50,10 @@ export const getTodayStats = (movies) => {
         stats[genre] = 0;
       }
 
-      if (today.diff(dayjs(movie.watchingDate)) === 0) {
+      if (
+        movie.isAlreadyWatched &&
+        today.diff(dayjs(movie.watchingDate)) === 0
+      ) {
         stats[genre] += 1;
       }
     });
@@ -65,12 +70,12 @@ export const getWeekStats = (movies) => {
     const genres = movie.genre;
 
     genres.forEach((genre) => {
-      if (stats[genre] === undefined) {
+      if (movie.isAlreadyWatched && stats[genre] === undefined) {
         stats[genre] = 0;
       }
 
-      const days7ago = dayjs(today).subtract(7, 'day');
-      if (dayjs(movie.watchingDate).isBetween(days7ago, today, 'day', '[]')) {
+      const weekAgo = dayjs(today).subtract(7, 'day');
+      if (dayjs(movie.watchingDate).isBetween(weekAgo, today, 'day', '[]')) {
         stats[genre] += 1;
       }
     });
@@ -92,7 +97,10 @@ export const getMonthStats = (movies) => {
       }
 
       const monthAgo = dayjs(today).subtract(1, 'month');
-      if (dayjs(movie.watchingDate).isBetween(monthAgo, today, 'day', '[]')) {
+      if (
+        movie.isAlreadyWatched &&
+        dayjs(movie.watchingDate).isBetween(monthAgo, today, 'day', '[]')
+      ) {
         stats[genre] += 1;
       }
     });
@@ -114,7 +122,10 @@ export const getYearStats = (movies) => {
       }
 
       const yearAgo = dayjs(today).subtract(1, 'year');
-      if (dayjs(movie.watchingDate).isBetween(yearAgo, today, 'day', '[]')) {
+      if (
+        movie.isAlreadyWatched &&
+        dayjs(movie.watchingDate).isBetween(yearAgo, today, 'day', '[]')
+      ) {
         stats[genre] += 1;
       }
     });
@@ -155,11 +166,11 @@ export const getWatchedStatsWeek = (movies) => {
   let stats = 0;
 
   movies.forEach((movie) => {
-    const days7ago = dayjs(today).subtract(7, 'day');
+    const weekAgo = dayjs(today).subtract(7, 'day');
 
     if (
       movie.isAlreadyWatched &&
-      dayjs(movie.watchingDate).isBetween(days7ago, today, 'day', '[]')
+      dayjs(movie.watchingDate).isBetween(weekAgo, today, 'day', '[]')
     ) {
       stats += 1;
     }
@@ -205,6 +216,126 @@ export const getWatchedStatsYear = (movies) => {
 
   return stats;
 };
+
+export const getWatchedDurationAll = (movies) => {
+  let minutes = 0;
+  let hours = 0;
+
+  movies.forEach((movie) => {
+    if (movie.isAlreadyWatched) {
+      minutes += movie.minutes;
+      hours += movie.hours;
+    }
+  });
+
+  minutes = minutes - Math.floor(minutes / 60) * 60;
+  hours += Math.floor(minutes / 60);
+
+  return { minutes, hours };
+};
+
+export const getWatchedDurationToday = (movies) => {
+  const today = dayjs(new Date());
+
+  let minutes = 0;
+  let hours = 0;
+
+  movies.forEach((movie) => {
+    if (movie.isAlreadyWatched && today.diff(dayjs(movie.watchingDate)) === 0) {
+      minutes += movie.minutes;
+      hours += movie.hours;
+    }
+  });
+
+  minutes = minutes - Math.floor(minutes / 60) * 60;
+  hours += Math.floor(minutes / 60);
+
+  return { minutes, hours };
+};
+
+export const getWatchedDurationWeek = (movies) => {
+  const today = dayjs(new Date());
+
+  let minutes = 0;
+  let hours = 0;
+
+  movies.forEach((movie) => {
+    const weekAgo = dayjs(today).subtract(7, 'day');
+    if (
+      movie.isAlreadyWatched &&
+      dayjs(movie.watchingDate).isBetween(weekAgo, today, 'day', '[]')
+    ) {
+      minutes += movie.minutes;
+      hours += movie.hours;
+    }
+  });
+
+  minutes = minutes - Math.floor(minutes / 60) * 60;
+  hours += Math.floor(minutes / 60);
+
+  return { minutes, hours };
+};
+
+export const getWatchedDurationMonth = (movies) => {
+  const today = dayjs(new Date());
+
+  let minutes = 0;
+  let hours = 0;
+
+  movies.forEach((movie) => {
+    const monthAgo = dayjs(today).subtract(1, 'month');
+    if (
+      movie.isAlreadyWatched &&
+      dayjs(movie.watchingDate).isBetween(monthAgo, today, 'day', '[]')
+    ) {
+      minutes += movie.minutes;
+      hours += movie.hours;
+    }
+  });
+
+  minutes = minutes - Math.floor(minutes / 60) * 60;
+  hours += Math.floor(minutes / 60);
+
+  return { minutes, hours };
+};
+
+export const getWatchedDurationYear = (movies) => {
+  const today = dayjs(new Date());
+
+  let minutes = 0;
+  let hours = 0;
+
+  movies.forEach((movie) => {
+    const yearAgo = dayjs(today).subtract(1, 'year');
+    if (
+      movie.isAlreadyWatched &&
+      dayjs(movie.watchingDate).isBetween(yearAgo, today, 'day', '[]')
+    ) {
+      minutes += movie.minutes;
+      hours += movie.hours;
+    }
+  });
+
+  minutes = minutes - Math.floor(minutes / 60) * 60;
+  hours += Math.floor(minutes / 60);
+
+  return { minutes, hours };
+};
+
+export const getTopGenreAll = (statsFilter, movies) => {
+  const filter = statsFilter.getStatsFilter();
+  const genres = filter(movies);
+  // { Adventure: 10, Comedy: 5 }
+
+  const values = _.values(genres);
+  const maxValue = _.max(values);
+  const genre = _.findKey(genres, (o) => {
+    return o === maxValue;
+  });
+
+  return { genre };
+};
+
 export default class StatsFilters extends Observer {
   constructor() {
     super();

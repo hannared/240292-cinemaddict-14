@@ -268,6 +268,8 @@ const generateFilm = (i) => {
     rating: getRandomFloat(1, 9),
     ageRating: '18+',
     year: getRandomInteger(1900, 2021),
+    hours: hours,
+    minutes: minutes,
     duration: `${hours}h ${minutes}m`,
     genre: generateGenre(),
     description: generateDescription(),
