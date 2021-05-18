@@ -1,4 +1,3 @@
-import Abstract from './abstract';
 import Smart from './smart';
 
 const createStatsWatchedTemplate = (number) => {

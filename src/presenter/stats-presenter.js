@@ -1,29 +1,27 @@
-import StatsFilters, {
-  getAllTimeStats,
-  getMonthStats,
-  getTodayStats,
-  getWatchedDurationAll,
-  getWatchedStatsAll,
-  getWatchedStatsMonth,
-  getWatchedStatsToday,
-  getWatchedStatsWeek,
-  getWatchedStatsYear,
-  getWeekStats,
-  getYearStats,
-  getWatchedDurationToday,
-  getWatchedDurationWeek,
-  getWatchedDurationMonth,
-  getWatchedDurationYear,
-  getTopGenreAll,
-} from '../model/stats-filters';
+import StatsFilters from '../model/stats-filters';
+import { getAllTimeStats } from '../model/stats-filters';
+import { getMonthStats } from '../model/stats-filters';
+import { getTodayStats } from '../model/stats-filters';
+import { getWatchedDurationAll } from '../model/stats-filters';
+import { getWatchedStatsAll } from '../model/stats-filters';
+import { getWatchedStatsMonth } from '../model/stats-filters';
+import { getWatchedStatsToday } from '../model/stats-filters';
+import { getWatchedStatsWeek } from '../model/stats-filters';
+import { getWatchedStatsYear } from '../model/stats-filters';
+import { getWeekStats } from '../model/stats-filters';
+import { getYearStats } from '../model/stats-filters';
+import { getWatchedDurationToday } from '../model/stats-filters';
+import { getWatchedDurationWeek } from '../model/stats-filters';
+import { getWatchedDurationMonth } from '../model/stats-filters';
+import { getWatchedDurationYear } from '../model/stats-filters';
+import { getTopGenreAll } from '../model/stats-filters';
 import { renderElement } from '../utils';
 import { ChartView } from '../view/chart-view';
 import Stats from '../view/stats';
 import StatsFilterButton, { StatsFilterLabel } from '../view/stats-filter-btn';
-import StatsWatchedText, {
-  StatsDurationText,
-  StatsTopGenreText,
-} from '../view/stats-text';
+import StatsWatchedText from '../view/stats-text';
+import { StatsDurationText } from '../view/stats-text';
+import { StatsTopGenreText } from '../view/stats-text';
 
 export default class Statistics {
   constructor(homeContainer, movies, statsFilters) {

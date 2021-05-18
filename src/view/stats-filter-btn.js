@@ -45,7 +45,6 @@ export default class StatsFilterButton extends Smart {
 
   _statsFilterClickHandler() {
     this._callback.statsFilterClick();
-    console.log('CLICK');
   }
 
   setStatsFilterClickHandler(callback) {
