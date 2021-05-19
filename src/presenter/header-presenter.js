@@ -17,6 +17,7 @@ export default class Header {
 
     renderElement(this._headerContainer, this._userProfileComponent);
   }
+
   _renderHeader() {
     this._renderUserProfile();
   }

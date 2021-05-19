@@ -15,7 +15,17 @@ const titles = [
   'The great Flamarion',
   'The Man with The Golden Arm',
 ];
-const genres = ['Musical', 'History', 'Thriller', 'Drama', 'Film-Noir'];
+const genres = [
+  'Drama',
+  'Adventure',
+  'Comedy',
+  'Animation',
+  'Family',
+  'Sci-Fi',
+  'Thriller',
+  'Horror',
+  'Action',
+];
 
 const emotions = ['angry.png', 'puke.png', 'sleeping.png', 'smile.png'];
 
@@ -234,7 +244,10 @@ const generateFilm = (i) => {
     let watchingDate = '';
 
     if (alreadyWatched) {
-      watchingDate = dayjs.between('2020-06-10', '2021-03-02');
+      const today = new Date();
+      const from = dayjs(today).subtract(30, 'day');
+      const to = today;
+      watchingDate = dayjs.between(from, to);
     }
 
     return { alreadyWatched, watchingDate };
@@ -255,6 +268,8 @@ const generateFilm = (i) => {
     rating: getRandomFloat(1, 9),
     ageRating: '18+',
     year: getRandomInteger(1900, 2021),
+    hours: hours,
+    minutes: minutes,
     duration: `${hours}h ${minutes}m`,
     genre: generateGenre(),
     description: generateDescription(),

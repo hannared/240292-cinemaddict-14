@@ -14,6 +14,14 @@ export default class Abstract {
     throw new Error('Abstract method not implemented: getTemplate');
   }
 
+  showElement() {
+    this.getElement().classList.remove('visually-hidden');
+  }
+
+  hideElement() {
+    this.getElement().classList.add('visually-hidden');
+  }
+
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
