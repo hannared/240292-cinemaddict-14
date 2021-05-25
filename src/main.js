@@ -1,3 +1,4 @@
+import Api from './api.js';
 import { generateFilms } from './mock/film.js';
 import Filters from './model/filters.js';
 import Movies from './model/movies.js';
@@ -12,8 +13,16 @@ const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer__statistics');
 
 const FILM_COUNT = 26;
+const AUTHORIZATION = 'Basic eo0w000ik29888a';
+const END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict';
 
 const films = generateFilms(FILM_COUNT);
+
+const api = new Api(END_POINT, AUTHORIZATION);
+
+api.getFilms().then((movies) => {
+  console.log(movies);
+});
 
 const movies = new Movies();
 movies.setMovies(films);
