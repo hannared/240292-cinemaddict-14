@@ -16,7 +16,13 @@ ${array.join('')}
 };
 
 export const createFilmCommentTemplate = (comment = {}) => {
-  const { author, message, date, emotion, id } = comment;
+  const { author, date, emotion, id } = comment;
+
+  let message = comment.message;
+  if (message === undefined) {
+    message = '';
+  }
+
   return `<li class="film-details__comment">
   <span class="film-details__comment-emoji">
     <img src="./images/emoji/${emotion}" width="55" height="55" alt="emoji-smile">

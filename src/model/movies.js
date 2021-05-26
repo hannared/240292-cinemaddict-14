@@ -61,8 +61,6 @@ export default class Movies extends Observer {
   }
 
   static adaptToClient(movie) {
-    debugger;
-
     const year = dayjs(movie.film_info.release.date).year();
 
     const { hours, minutes } = convertMinsToHrsMins(movie.film_info.runtime);
@@ -90,36 +88,38 @@ export default class Movies extends Observer {
       isAlreadyWatched: movie.user_details.already_watched,
       watchingDate: movie.user_details.watching_date,
       commentsList: [],
-
-      // dueDate: task.due_date !== null ? new Date(task.due_date) : task.due_date, // На клиенте дата хранится как экземпляр Date
-      // isArchive: task.is_archived,
-      // isFavorite: task.is_favorite,
-      // repeating: task.repeating_days,
     });
-
-    // Ненужные ключи мы удаляем
-    // delete adaptedTask.due_date;
-    // delete adaptedTask.is_archived;
-    // delete adaptedTask.is_favorite;
-    // delete adaptedTask.repeating_days;
 
     return adaptedFilm;
   }
 
   static adaptToServer(movie) {
-    const adaptedFilm = Object.assign({}, movie, {
-      // due_date:
-      //   task.dueDate instanceof Date ? task.dueDate.toISOString() : null, // На сервере дата хранится в ISO формате
-      // is_archived: task.isArchive,
-      // is_favorite: task.isFavorite,
-      // repeating_days: task.repeating,
-    });
-
-    // Ненужные ключи мы удаляем
-    // delete adaptedTask.dueDate;
-    // delete adaptedTask.isArchive;
-    // delete adaptedTask.isFavorite;
-    // delete adaptedTask.repeating;
+    const adaptedFilm = {
+      id: movie.id,
+      film_info: {
+        title: movie.title,
+        poster: movie.poster,
+        alternative_title: movie.alternativeTitle,
+        total_rating: movie.rating,
+        age_rating: movie.ageRating,
+        genre: movie.genre,
+        description: movie.description,
+        director: movie.director,
+        writers: movie.writers,
+        actors: movie.actors,
+        release: {
+          date: movie.release.date,
+          release_country: movie.release.country,
+        },
+      },
+      user_details: {
+        favorite: movie.isFavorite,
+        watchlist: movie.isWatchList,
+        already_watched: movie.isAlreadyWatched,
+        watching_date: movie.watchingDate,
+      },
+      comments: movie.comments,
+    };
 
     return adaptedFilm;
   }
