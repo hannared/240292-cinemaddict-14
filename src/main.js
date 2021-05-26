@@ -31,7 +31,6 @@ api.getFilms().then((data) => {
   for (let i = 0; i < data.length; i++) {
     api.getComments(data[i].id).then((comments) => {
       data[i].commentsList = comments;
-      console.log(comments);
       movies._updateMovie(UpdateType.MINOR, data[i]);
     });
   }
