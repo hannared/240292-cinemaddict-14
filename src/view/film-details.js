@@ -48,7 +48,7 @@ const createFilmDetailsTemplate = (film = {}) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="${poster}" alt="">
 
-          <p class="film-details__age">${ageRating}</p>
+          <p class="film-details__age">${ageRating}+</p>
         </div>
 
         <div class="film-details__info">
@@ -161,9 +161,8 @@ export default class FilmDetails extends Smart {
     this._clickCloseBtnHandler = this._clickCloseBtnHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._watchListClickHandler = this._watchListClickHandler.bind(this);
-    this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
-      this,
-    );
+    this._alreadyWatchedClickHandler =
+      this._alreadyWatchedClickHandler.bind(this);
     this._addClickHandler = this._addClickHandler.bind(this);
 
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
@@ -249,23 +248,20 @@ export default class FilmDetails extends Smart {
         '.film-details__emoji-item:checked',
       ).value;
 
-      const id = Math.floor(Math.random() * 1000);
+      const id = Math.floor(Math.random() * 1000).toString();
       const date = new Date();
 
       const comment = {
         id: id,
         author: 'John Doe',
-        message: evt.target.value,
+        comment: evt.target.value,
         date: dayjs(date).fromNow(),
-        emotion: emotion + '.png',
+        emotion: emotion,
       };
-
-      this._film.commentsList.push(comment);
-      this._film.comments.push(id);
 
       this.updateData(this._film);
 
-      this._callback.addClick();
+      this._callback.addClick(comment);
     }
   }
 

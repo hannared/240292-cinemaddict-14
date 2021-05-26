@@ -22,7 +22,14 @@ const sorting = new Sorting();
 const statsFilters = new StatsFilters();
 
 const header = new Header(siteHeaderElement, movies);
-const home = new Home(siteMainElement, movies, filters, sorting, statsFilters);
+const home = new Home(
+  siteMainElement,
+  movies,
+  filters,
+  sorting,
+  statsFilters,
+  api,
+);
 const footer = new Footer(siteFooterElement, movies);
 
 api.getFilms().then((data) => {
@@ -31,7 +38,6 @@ api.getFilms().then((data) => {
   for (let i = 0; i < data.length; i++) {
     api.getComments(data[i].id).then((comments) => {
       data[i].commentsList = comments;
-      console.log(comments);
       movies._updateMovie(UpdateType.MINOR, data[i]);
     });
   }

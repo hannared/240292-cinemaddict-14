@@ -1,3 +1,4 @@
+import Movies from '../model/movies';
 import { renderElement } from '../utils';
 import { UpdateType } from '../utils/observer';
 import FilmCard from '../view/film-card';
@@ -8,11 +9,12 @@ const Mode = {
   POPUP: 'POPUP',
 };
 export default class FilmPresenter {
-  constructor(filmContainer, changeData, changeMode, movies) {
+  constructor(filmContainer, changeData, changeMode, movies, api) {
     this._filmContainer = filmContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
     this._movies = movies;
+    this._api = api;
 
     this._mode = Mode.DEFAULT;
 
@@ -96,8 +98,15 @@ export default class FilmPresenter {
     filmDetailsComponent.setDeleteClickHandler(() => {
       this._movies.updateMovie(UpdateType.MINOR, this._film);
     });
-    filmDetailsComponent.setAddClickHandler(() => {
-      this._movies.updateMovie(UpdateType.MINOR, this._film);
+    filmDetailsComponent.setAddClickHandler((comment) => {
+      this._api.addComment(this._film, comment).then((data) => {
+        const { comments, movie } = data;
+
+        const film = Movies.adaptToClient(movie);
+        film.commentsList = comments;
+
+        this._movies._updateMovie(UpdateType.MINOR, film);
+      });
     });
 
     this._filmCardComponent = filmCardComponent;
