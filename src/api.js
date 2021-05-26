@@ -16,6 +16,10 @@ export default class Api {
     this._authorization = authorization;
   }
 
+  getComments(movieId) {
+    return this._load({ url: `/comments/${movieId}` }).then(Api.toJSON);
+  }
+
   getFilms() {
     return this._load({ url: 'movies' })
       .then(Api.toJSON)
@@ -23,10 +27,12 @@ export default class Api {
   }
 
   updateFilm(movie) {
+    const data = Movies.adaptToServer(movie);
+
     return this._load({
       url: `movies/${movie.id}`,
       method: Method.PUT,
-      body: JSON.stringify(movie),
+      body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' }),
     })
       .then(Api.toJSON)

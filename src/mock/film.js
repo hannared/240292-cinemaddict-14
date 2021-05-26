@@ -218,7 +218,7 @@ const generateComment = (i) => {
   return {
     id: i,
     author: generateAuthor(),
-    message: generateMessages(),
+    comment: generateMessages(),
     date: dayjs(date).fromNow(),
     emotion: generateEmotion(),
   };
