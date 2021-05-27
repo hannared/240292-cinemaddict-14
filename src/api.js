@@ -50,10 +50,11 @@ export default class Api {
     }).then(Api.toJSON);
   }
 
-  deleteTask(task) {
+  deleteComment(comment) {
     return this._load({
-      url: `tasks/${task.id}`,
+      url: `/comments/${comment.id}`,
       method: Method.DELETE,
+      headers: new Headers({ 'Content-Type': 'application/json' }),
     });
   }
 

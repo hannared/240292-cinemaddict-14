@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Movies from '../model/movies';
 import { renderElement } from '../utils';
 import { UpdateType } from '../utils/observer';
@@ -95,18 +96,52 @@ export default class FilmPresenter {
     filmDetailsComponent.setWatchListClickHandler(onWatchListCLick);
     filmDetailsComponent.setAlreadyWatchedClickHandler(onAlreadyWatchedCLick);
 
-    filmDetailsComponent.setDeleteClickHandler(() => {
-      this._movies.updateMovie(UpdateType.MINOR, this._film);
+    filmDetailsComponent.setDeleteClickHandler((comment) => {
+      this._filmDetailsComponent.beginCommentDelete(comment);
+      // render details
+      this._filmDetailsComponent.updateData(this._film);
+
+      this._api
+        .deleteComment(comment)
+        .then(() => {
+          _.remove(this._film.comments, (cid) => cid === comment.id);
+          _.remove(this._film.commentsList, (c) => c.id === comment.id);
+
+          this._movies._updateMovie(UpdateType.MINOR, this._film);
+          this._filmDetailsComponent.endCommentDelete();
+
+          this._filmDetailsComponent.updateData(this._film);
+        })
+        .catch(() => {
+          this._filmDetailsComponent.onCommentDeleteError(comment);
+          this._filmDetailsComponent.endCommentDelete();
+
+          this._filmDetailsComponent.updateData(this._film);
+        });
     });
     filmDetailsComponent.setAddClickHandler((comment) => {
-      this._api.addComment(this._film, comment).then((data) => {
-        const { comments, movie } = data;
+      this._filmDetailsComponent.beginCommentAdd();
+      this._filmDetailsComponent.updateData(film);
 
-        const film = Movies.adaptToClient(movie);
-        film.commentsList = comments;
+      this._api
+        .addComment(this._film, comment)
+        .then((data) => {
+          const { comments, movie } = data;
 
-        this._movies._updateMovie(UpdateType.MINOR, film);
-      });
+          const film = Movies.adaptToClient(movie);
+          film.commentsList = comments;
+
+          this._movies._updateMovie(UpdateType.MINOR, film);
+          this._filmDetailsComponent.endCommentAdd();
+
+          this._filmDetailsComponent.updateData(film);
+        })
+        .catch(() => {
+          this._filmDetailsComponent.onCommentFormError();
+          this._filmDetailsComponent.endCommentAdd();
+
+          this._filmDetailsComponent.updateData(film);
+        });
     });
 
     this._filmCardComponent = filmCardComponent;
