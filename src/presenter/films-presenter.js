@@ -2,8 +2,6 @@ import { renderElement, replace } from '../utils';
 import { UpdateType } from '../utils/observer';
 import AllMoviesContainer from '../view/film-all-movies';
 import FilmContainer from '../view/film-container';
-import MostCommentedContainer from '../view/film-most-commented';
-import TopRatedContainer from '../view/film-top-rated';
 import NoFilm from '../view/no-film';
 import ShowMoreBtn from '../view/show-more-btn';
 import Sorting from '../view/sorting';
@@ -130,8 +128,6 @@ export default class FilmsPresenter {
   }
 
   _renderFilms() {
-    this._topRatedComponent = new TopRatedContainer(this._homeFilms);
-    this._mostCommentedComponent = new MostCommentedContainer(this._homeFilms);
     this._allMoviesComponent = new AllMoviesContainer();
 
     renderElement(this._homeContainer, this._filmContainerComponent);
@@ -163,9 +159,6 @@ export default class FilmsPresenter {
       if (this._homeFilms.length > FILM_COUNT_PER_STEP) {
         this._renderShowMoreButton();
       }
-
-      renderElement(this._filmContainerComponent, this._topRatedComponent);
-      renderElement(this._filmContainerComponent, this._mostCommentedComponent);
     }
   }
 

@@ -50,8 +50,6 @@ export default class Home {
     const sorting = this._sorting.getSorting();
     this._homeFilms = sorting(this._homeFilms);
 
-    // FilterPresenter render
-    // FilmsPresenter render
     this._filmsPresenter.update(this._homeFilms);
     this._filtersPresenter.update();
   }
