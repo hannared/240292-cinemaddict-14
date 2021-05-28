@@ -4,7 +4,7 @@ import { createFilmCommentsTemplate } from './film-comments';
 import { RELEASE_DATE_FORMAT } from './film-consts';
 import Smart from './smart';
 
-const createFilmDetailsTemplate = (film = {}) => {
+const createFilmDetailsTemplate = (film = {}, isAdding, deletingComment) => {
   const {
     title,
     rating,
@@ -27,7 +27,11 @@ const createFilmDetailsTemplate = (film = {}) => {
 
   const releaseDate = dayjs(release.date).format(RELEASE_DATE_FORMAT);
 
-  const commentsTemplate = createFilmCommentsTemplate(commentsList, comments);
+  const commentsTemplate = createFilmCommentsTemplate(
+    commentsList,
+    comments,
+    deletingComment,
+  );
 
   const genresTemplate = genre
     .map((element) => `<span class="film-details__genre">${element}</span>`)
@@ -36,6 +40,7 @@ const createFilmDetailsTemplate = (film = {}) => {
   const isWatchListAttribute = isWatchList ? 'checked' : '';
   const isAlreadyWatchedAttribute = isAlreadyWatched ? 'checked' : '';
   const isFavoriteAttribute = isFavorite ? 'checked' : '';
+  const adding = isAdding ? 'disabled' : '';
 
   return `
   <section class="film-details">
@@ -48,7 +53,7 @@ const createFilmDetailsTemplate = (film = {}) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="${poster}" alt="">
 
-          <p class="film-details__age">${ageRating}</p>
+          <p class="film-details__age">${ageRating}+</p>
         </div>
 
         <div class="film-details__info">
@@ -121,7 +126,7 @@ const createFilmDetailsTemplate = (film = {}) => {
           <div class="film-details__add-emoji-label"></div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea ${adding} class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
           </label>
 
           <div class="film-details__emoji-list">
@@ -157,19 +162,37 @@ export default class FilmDetails extends Smart {
   constructor(film) {
     super();
 
+    this._isAdding = false;
+    this._deletingComment = null; // id of comment
+
     this._film = film;
     this._clickCloseBtnHandler = this._clickCloseBtnHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._watchListClickHandler = this._watchListClickHandler.bind(this);
-    this._alreadyWatchedClickHandler = this._alreadyWatchedClickHandler.bind(
-      this,
-    );
+    this._alreadyWatchedClickHandler =
+      this._alreadyWatchedClickHandler.bind(this);
     this._addClickHandler = this._addClickHandler.bind(this);
 
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
     this._deleteClickHandler = this._deleteClickHandler.bind(this);
 
     this.emojiClicks();
+  }
+
+  beginCommentDelete(comment) {
+    this._deletingComment = comment.id;
+  }
+
+  endCommentDelete() {
+    this._deletingComment = null;
+  }
+
+  beginCommentAdd() {
+    this._isAdding = true;
+  }
+
+  endCommentAdd() {
+    this._isAdding = false;
   }
 
   emojiClicks() {
@@ -195,7 +218,11 @@ export default class FilmDetails extends Smart {
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createFilmDetailsTemplate(
+      this._film,
+      this._isAdding,
+      this._deletingComment,
+    );
   }
 
   _clickCloseBtnHandler(evt) {
@@ -232,40 +259,45 @@ export default class FilmDetails extends Smart {
   _deleteClickHandler(evt) {
     evt.preventDefault();
 
-    const id = parseInt(evt.target.getAttribute('data-id'));
-    _.remove(this._film.comments, (cid) => cid === id);
-    _.remove(this._film.commentsList, (comment) => comment.id === id);
+    const id = evt.target.getAttribute('data-id');
+
+    const comment = _.find(
+      this._film.commentsList,
+      (comment) => comment.id === id,
+    );
 
     this.updateData(this._film);
 
-    this._callback.deleteClick();
+    this._callback.deleteClick(comment);
   }
 
   _addClickHandler(evt) {
-    if (evt.key == 'Enter') {
+    const isMacLike = /(Mac)/i.test(navigator.platform);
+
+    if (
+      (isMacLike && evt.metaKey && evt.key === 'Enter') ||
+      (!isMacLike && evt.ctrlKey && evt.key == 'Enter')
+    ) {
       evt.preventDefault();
 
       const emotion = this.getElement().querySelector(
         '.film-details__emoji-item:checked',
       ).value;
 
-      const id = Math.floor(Math.random() * 1000);
+      const id = Math.floor(Math.random() * 1000).toString();
       const date = new Date();
 
       const comment = {
         id: id,
         author: 'John Doe',
-        message: evt.target.value,
+        comment: evt.target.value,
         date: dayjs(date).fromNow(),
-        emotion: emotion + '.png',
+        emotion: emotion,
       };
-
-      this._film.commentsList.push(comment);
-      this._film.comments.push(id);
 
       this.updateData(this._film);
 
-      this._callback.addClick();
+      this._callback.addClick(comment);
     }
   }
 
@@ -334,5 +366,17 @@ export default class FilmDetails extends Smart {
     this.updateElement();
 
     this.restoreHandlers();
+  }
+
+  onCommentFormError() {
+    this.getElement()
+      .querySelector('.film-details__comment-input')
+      .classList.add('shake');
+  }
+
+  onCommentDeleteError(comment) {
+    this.getElement()
+      .querySelector(`.comment-${comment.id}`)
+      .classList.add('shake');
   }
 }

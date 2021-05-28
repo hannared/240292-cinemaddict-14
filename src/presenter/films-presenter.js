@@ -16,10 +16,11 @@ import FilmPresenter from './film-presenter';
 const FILM_COUNT_PER_STEP = 5;
 
 export default class FilmsPresenter {
-  constructor(homeContainer, movies, sorting) {
+  constructor(homeContainer, movies, sorting, api) {
     this._homeContainer = homeContainer;
     this._movies = movies;
     this._sorting = sorting;
+    this._api = api;
 
     this._sortingComponent = new Sorting();
     this._filmContainerComponent = new FilmContainer();
@@ -75,6 +76,7 @@ export default class FilmsPresenter {
       this._handleFilmChange,
       this._handleModeChange,
       this._movies,
+      this._api,
     );
     filmPresenterNew.init(updatedFilm);
     filmPresenterNew.render();
@@ -150,6 +152,7 @@ export default class FilmsPresenter {
           this._handleFilmChange,
           this._handleModeChange,
           this._movies,
+          this._api,
         );
         filmPresenter.init(film);
         filmPresenter.render();
@@ -194,6 +197,7 @@ export default class FilmsPresenter {
           this._handleFilmChange,
           this._handleModeChange,
           this._movies,
+          this._api,
         );
         filmPresenter.init(film);
         filmPresenter.render();
