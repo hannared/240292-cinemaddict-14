@@ -9,7 +9,11 @@ export const createFilmCommentsTemplate = (comments, ids, deletingComment) => {
 
   for (let i = 0; i < ids.length; i++) {
     const found = comments.find((comment) => comment.id === ids[i]);
-    array.push(createFilmCommentTemplate(found, deletingComment === found.id));
+    if (found !== undefined) {
+      array.push(
+        createFilmCommentTemplate(found, deletingComment === found.id),
+      );
+    }
   }
 
   return `
