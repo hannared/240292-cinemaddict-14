@@ -99,29 +99,30 @@ export default class Movies extends Observer {
   }
 
   static adaptToServer(movie) {
+    // prettier-ignore
     const adaptedFilm = {
       id: movie.id,
-      film_info: {
+      'film_info': {
         title: movie.title,
-        alternative_title: movie.alternativeTitle,
-        total_rating: movie.rating,
+        'alternative_title': movie.alternativeTitle,
+        'total_rating': movie.rating,
         poster: movie.poster,
-        age_rating: movie.ageRating,
+        'age_rating': movie.ageRating,
         director: movie.director,
         writers: movie.writers,
         actors: movie.actors,
         release: {
           date: movie.release.date,
-          release_country: movie.release.country,
+          'release_country': movie.release.country,
         },
         runtime: movie.runtime,
         genre: movie.genre,
         description: movie.description,
       },
-      user_details: {
+      'user_details': {
         watchlist: movie.isWatchList,
-        already_watched: movie.isAlreadyWatched,
-        watching_date: movie.watchingDate,
+        'already_watched': movie.isAlreadyWatched,
+        'watching_date': movie.watchingDate,
         favorite: movie.isFavorite,
       },
       comments: movie.comments,

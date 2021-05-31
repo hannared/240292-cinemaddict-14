@@ -276,7 +276,7 @@ export default class FilmDetails extends Smart {
 
     if (
       (isMacLike && evt.metaKey && evt.key === 'Enter') ||
-      (!isMacLike && evt.ctrlKey && evt.key == 'Enter')
+      (!isMacLike && evt.ctrlKey && evt.key === 'Enter')
     ) {
       evt.preventDefault();
 
